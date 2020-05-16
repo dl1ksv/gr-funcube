@@ -10,13 +10,13 @@
 #endif
 
 #include <boost/test/unit_test.hpp>
-#include <funcube/fcd.h>
+#include <funcube/fcdpp_control.h>
 #include <gnuradio/attributes.h>
 
 namespace gr {
 namespace funcube {
 
-BOOST_AUTO_TEST_CASE(test_fcd_t1) {
+BOOST_AUTO_TEST_CASE(test_fcdpp_control_t1) {
   // Put test here
 }
 

@@ -1,17 +1,34 @@
-title: The FUNCUBE OOT Module
-brief: Short description of gr-funcube
-tags: # Tags are arbitrary, but look at CGRAN what other authors are using
-  - sdr
+title: gr-funcube
+brief: A GNU Radio funcube dongle and funcube dongle pro+ source
+tags:
+  - funcube
 author:
-  - Author Name <authors@email.address>
+  - Volker Schroer
 copyright_owner:
-  - Copyright Owner 1
-license:
-gr_supported_version: # Put a comma separated list of supported GR versions here
-#repo: # Put the URL of the repository here, or leave blank for default
-#website: <module_website> # If you have a separate project website, put it here
-#icon: <icon_url> # Put a URL to a square image here that will be used as an icon on CGRAN
+  - Volker Schroer
+dependencies:
+  - gnuradio (>= 3.9.0 )
+  - alsa usb drivers activated
+  - hidapi-libusb
+repo: https://github.com/dl1ksv/gr-funcube.git
 ---
-A longer, multi-line description of gr-funcube.
-You may use some *basic* Markdown here.
-If left empty, it will try to find a README file instead.
+gr-funcube is an linux and OSX addon for gnuradio to implement a funcube dongle pro+ source.
+On linux it autodetects the correct soundcard from /proc/asound/cards.
+This idea was taken from the osmosdr drivers.  To control the device  the hidapi usb version is used.
+
+It contains four components:
+ 
+Funcube Dongle              - The complete V1.0 source block
+Funcube Dongle control      - The control block, to set frequency, gain, etc.
+
+Funcube dongle Pro+         - The complete V2.0 source block 
+Funcube dongle Pro+ control - The control block, to set frequency, gain, etc.
+
+The  control block are used inside the source block but can be used standalone, too.
+All blocks contain a message port to set the frequency by messages.
+
+You find these blocks in grc
+
+Funcube
+
+

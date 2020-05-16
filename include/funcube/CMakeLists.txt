@@ -11,5 +11,8 @@
 ########################################################################
 install(FILES
     api.h
-    fcd.h DESTINATION include/funcube
+    fcd.h
+    fcd_control.h
+    fcdpp.h
+    fcdpp_control.h DESTINATION include/funcube
 )

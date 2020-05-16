@@ -1,13 +1,8 @@
-id: funcube_fcd
-label: Funcube Dongle
+id: funcube_fcd_control
+label: Funcube Dongle Control
 category: '[Funcube]'
-flags: throttle
 
 parameters:
--   id: devicename
-    label: Device Name
-    dtype: string
-    default: ''
 -   id: freq
     label: Frequency (Hz)
     dtype: real
@@ -46,10 +41,6 @@ inputs:
     id: freq
     optional: true
 
-outputs:
-- label: out
-  domain: stream
-  dtype: complex
 asserts:
 - ${ (freq >= 50e6) and (freq <= 2e9) }
 - ${ (dci >= -1.0) and (dci <= 1.0) }
@@ -60,7 +51,7 @@ asserts:
 templates:
     imports: import funcube
     make: |-
-        funcube.fcd(${devicename})
+        funcube.fcd_control()
         % if lna != '20.0' :
         self.${id}.set_lna_gain(${lna})
         % endif

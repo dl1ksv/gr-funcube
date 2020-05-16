@@ -69,11 +69,27 @@ ELSEIF(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
 ELSE()
     message(WARNING "C standard could not be set because compiler is not GNU, Clang or MSVC.")
 ENDIF()
-
+########################################################################
+# Find funcube dependencies
+########################################################################
+if( ${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    find_package(USB)
+    if(NOT LIBUSB_FOUND)
+        message(FATAL_ERROR "libusb required to compile funcube modules")
+    else()
+        message(STATUS "Using libusb: ${LIBUSB_LIBRARIES} ")
+    endif()
+    find_package(HIDAPI )
+    if(NOT LIBHIDAPI_FOUND)
+        message(FATAL_ERROR "hidapi libs required to compile the funcube modules")
+    else()
+        message(STATUS "Using Hidapi: ${LIBHIDAPI_LIBRARIES} ")
+    endif()
+endif()
 ########################################################################
 # Install directories
 ########################################################################
-find_package(Gnuradio "3.9" REQUIRED)
+find_package(Gnuradio "3.9" REQUIRED audio blocks PATHS ${CMAKE_INSTALL_PREFIX})
 include(GrVersion)
 
 include(GrPlatform) #define LIB_SUFFIX

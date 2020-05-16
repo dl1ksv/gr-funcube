@@ -13,6 +13,9 @@ include(GrPlatform) #define LIB_SUFFIX
 
 list(APPEND funcube_sources
     fcd_impl.cc
+    fcd_control_impl.cc
+    fcdpp_impl.cc
+    fcdpp_control_impl.cc
 )
 
 set(funcube_sources "${funcube_sources}" PARENT_SCOPE)
@@ -20,10 +23,13 @@ if(NOT funcube_sources)
     MESSAGE(STATUS "No C++ sources... skipping lib/")
     return()
 endif(NOT funcube_sources)
+list(APPEND funcube_libs ${LIBUSB_LIBRARIES} ${LIBHIDAPI_LIBRARIES})
 
 add_library(gnuradio-funcube SHARED ${funcube_sources})
-target_link_libraries(gnuradio-funcube gnuradio::gnuradio-runtime)
-target_include_directories(gnuradio-funcube
+
+target_link_libraries(gnuradio-funcube gnuradio::gnuradio-runtime gnuradio::gnuradio-audio gnuradio::gnuradio-blocks ${funcube_libs} )
+target_include_directories(gnuradio-funcube 
+    PRIVATE ${LIBHIDAPI_INCLUDE_DIR}
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     PUBLIC $<INSTALL_INTERFACE:include>
   )
@@ -56,6 +62,7 @@ include(GrTest)
 #include_directories()
 # List all files that contain Boost.UTF unit tests here
 list(APPEND test_funcube_sources
+qa_fcdpp_control.cc
 qa_fcd.cc
 )
 # Anything we need to link to for the unit tests go here

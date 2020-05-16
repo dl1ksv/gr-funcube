@@ -7,5 +7,8 @@
 #
 
 install(FILES
-    funcube_fcd.block.yml DESTINATION share/gnuradio/grc/blocks
+    funcube_fcd.block.yml
+    funcube_fcd_control.block.yml
+    funcube_fcdpp.block.yml
+    funcube_fcdpp_control.block.yml DESTINATION share/gnuradio/grc/blocks
 )
