@@ -167,7 +167,7 @@ void fcd_control_impl::set_mixer_gain(float gain) {
   hid_write(d_control_handle, aucBuf, 65);
   hid_read(d_control_handle, aucBuf, 65);
   if (aucBuf[0] == FCD_HID_CMD_SET_MIXER_GAIN) {
-    GR_LOG_INFO(d_logger, boost::format("Mixer gain set to: ") % gain);
+    GR_LOG_INFO(d_logger, boost::format("Mixer gain set to: %1$7d") % gain);
   }
 
   else {
