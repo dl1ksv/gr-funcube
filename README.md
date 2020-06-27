@@ -60,7 +60,5 @@ See the examples of a simple fm receiver in the examples directory or see a more
 5.    Credits  
 
     Some code is taken from qthid-4.1 by Alexandru Csete, OZ9AEC.  
-The hid part is taken from
- http://github.com/signal11/hidapi
 
 Thanks to Michael Dickens, who gave valuable hints for implementing message in hier2_blocks.
