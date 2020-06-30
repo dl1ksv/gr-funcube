@@ -9,7 +9,7 @@
 #define INCLUDED_FUNCUBE_FCDPP_CONTROL_IMPL_H
 
 #include <funcube/fcdpp_control.h>
-#include "hidapi.h"
+#include "hidapi/hidapi.h"
 
 namespace gr {
   namespace funcube {

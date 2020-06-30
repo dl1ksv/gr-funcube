@@ -11,13 +11,15 @@ This is the GNU Radio FUNCUBE module. Place your Python package
 description here (python/__init__.py).
 '''
 from __future__ import unicode_literals
+import os
 
-# import swig generated symbols into the funcube namespace
+# import pybind11 generated symbols into the funcube namespace
 try:
-    # this might fail if the module is python-only
-    from .funcube_swig import *
+    from .funcube_python import *
 except ImportError:
-    pass
+    dirname, filename = os.path.split(os.path.abspath(__file__))
+    __path__.append(os.path.join(dirname, "bindings"))
+    from .funcube_python import *
 
 # import any pure python here
 #

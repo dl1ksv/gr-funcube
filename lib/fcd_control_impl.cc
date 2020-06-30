@@ -59,14 +59,21 @@ fcd_control_impl::fcd_control_impl()
   GR_LOG_INFO(d_logger, boost::format("Dongle: %S ") % &aucBuf[2]);
   /*
    * Initialize message handling
+   *
+   * Replace boost::function with std::function
+   *
    */
+  
   message_port_register_in(pmt::mp("freq"));
-  set_msg_handler(pmt::mp("freq"),
-                  boost::bind(&fcd_control_impl::set_frequency_msg, this, _1));
+  /*
+   * set_msg_handler(pmt::mp("freq"),
+   *               boost::bind(&fcd_control_impl::set_frequency_msg, this, _1));
+   */
+   set_msg_handler(pmt::mp("freq"),[this] (pmt::pmt_t msg) {this->fcd_control_impl::set_frequency_msg(msg); } );
 }
 
 fcd_control_impl::~fcd_control_impl() {
-  if (d_control_handle != 0) {
+  if (d_control_handle != NULL) {
     hid_close(d_control_handle);
   }
   hid_exit();

@@ -7,8 +7,15 @@
 #
 
 from gnuradio import gr, gr_unittest
-from gnuradio import blocks
-import funcube_swig as funcube
+# from gnuradio import blocks
+try:
+    from funcube import fcdpp_control
+except ImportError:
+    import os
+    import sys
+    dirname, filename = os.path.split(os.path.abspath(__file__))
+    sys.path.append(os.path.join(dirname, "bindings"))
+    from funcube import fcdpp_control
 
 class qa_fcdpp_control(gr_unittest.TestCase):
 
@@ -18,7 +25,13 @@ class qa_fcdpp_control(gr_unittest.TestCase):
     def tearDown(self):
         self.tb = None
 
-    def test_001_t(self):
+    def test_instance(self):
+        try:
+            instance = fcdpp_control()
+        except(RuntimeError):
+            pass
+
+    def test_001_descriptive_test_name(self):
         # set up fg
         self.tb.run()
         # check data

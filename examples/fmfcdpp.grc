@@ -39,7 +39,7 @@ blocks:
     gui_hint: 0,3,1,1
     label: IFGain
     min_len: '45'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: int
     start: '0'
     step: '1'
@@ -120,7 +120,7 @@ blocks:
     gui_hint: 0,0,1,1
     label: 'Set Frequency '
     min_len: '200'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: float
     start: '80000'
     step: '1'
@@ -160,9 +160,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [864, 388.0]
+    coordinate: [984, 388.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: analog_fm_demod_cf_0
   id: analog_fm_demod_cf
   parameters:
@@ -182,9 +182,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [624, 348.0]
+    coordinate: [784, 324.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: audio_sink_0
   id: audio_sink
   parameters:
@@ -199,7 +199,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1110, 406]
+    coordinate: [1200, 392.0]
     rotation: 0
     state: enabled
 - name: funcube_fcdpp_0
@@ -245,7 +245,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 324.0]
+    coordinate: [600, 348.0]
     rotation: 0
     state: enabled
 - name: qtgui_sink_x_0

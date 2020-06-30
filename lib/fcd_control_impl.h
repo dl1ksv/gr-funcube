@@ -10,7 +10,7 @@
 
 #include <funcube/fcd_control.h>
 
-#include "hidapi.h"
+#include "hidapi/hidapi.h"
 
 namespace gr {
   namespace funcube {

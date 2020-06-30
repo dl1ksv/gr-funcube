@@ -1,1 +1,4 @@
 build
+examples/*.py
+docs/doxygen/doxyxml/generated/__pycache__/
+docs/doxygen/doxyxml/__pycache__/

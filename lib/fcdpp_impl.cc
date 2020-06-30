@@ -66,7 +66,6 @@ fcdpp_impl::fcdpp_impl(const std::string user_device_name, int unit)
       fcd = gr::audio::source::make(192000, user_device_name, true);
       success = true;
     } catch (std::exception) {
-      std::cerr << "Could not open device: " << user_device_name << std::endl;
       GR_LOG_INFO(d_logger, boost::format("Could not open device: %1%") %
                                 user_device_name);
       success = false;
