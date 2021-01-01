@@ -55,27 +55,35 @@ message(STATUS "Building for version: ${VERSION} / ${LIBVER}")
 ########################################################################
 # Build and register unit test
 ########################################################################
-include(GrTest)
 
-# If your unit tests require special include paths, add them here
-#include_directories()
-# List all files that contain Boost.UTF unit tests here
-list(APPEND test_funcube_sources
-qa_fcdpp.cc
-qa_fcdpp_control.cc
-qa_fcd.cc
-qa_fcd_control.cc
-)
-# Anything we need to link to for the unit tests go here
-list(APPEND GR_TEST_TARGET_DEPS gnuradio-funcube)
+find_package(Boost  REQUIRED
+     OPTIONAL_COMPONENTS unit_test_framework)
 
-if(NOT test_funcube_sources)
-    MESSAGE(STATUS "No C++ unit tests... skipping")
-    return()
-endif(NOT test_funcube_sources)
+if( Boost_unit_test_framework_FOUND )              
+    include(GrTest)
 
-foreach(qa_file ${test_funcube_sources})
+    # If your unit tests require special include paths, add them here
+    #include_directories()
+    # List all files that contain Boost.UTF unit tests here
+    list(APPEND test_funcube_sources
+    qa_fcdpp.cc
+    qa_fcdpp_control.cc
+    qa_fcd.cc
+    qa_fcd_control.cc
+    )
+    # Anything we need to link to for the unit tests go here
+    list(APPEND GR_TEST_TARGET_DEPS gnuradio-funcube)
+
+    if(NOT test_funcube_sources)
+        MESSAGE(STATUS "No C++ unit tests... skipping")
+        return()
+    endif(NOT test_funcube_sources)
+
+    foreach(qa_file ${test_funcube_sources})
     GR_ADD_CPP_TEST("funcube_${qa_file}"
         ${CMAKE_CURRENT_SOURCE_DIR}/${qa_file}
     )
-endforeach(qa_file)
+   endforeach(qa_file)
+else()
+   message(STATUS " boost unit_test_framework is missing, so no tests will be generated")
+endif()
