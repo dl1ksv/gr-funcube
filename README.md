@@ -36,9 +36,9 @@ Funcube Dongle Pro+ control
 Don't forget the udev rules:  
 For instance:  
 &nbsp;  
-> #### Udev rules for the Funcube Dongle Pro (0xfb56) and Pro+ (0xfb31)  
+    #### Udev rules for the Funcube Dongle Pro (0xfb56) and Pro+ (0xfb31)   
     # HIDAPI/libusb:  
-SUBSYSTEMS=="usb" ATTRS{idVendor}=="04d8" ATTRS{idProduct}=="fb56" MODE:="0666"  
+SUBSYSTEMS=="usb" ATTRS{idVendor}=="04d8" ATTRS{idProduct}=="fb56" MODE:="0666"    
 SUBSYSTEMS=="usb" ATTRS{idVendor}=="04d8" ATTRS{idProduct}=="fb31" MODE:="0666"  
     # HIDAPI/hidraw:  
 KERNEL=="hidraw*", ATTRS{busnum}=="1", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="fb56", MODE="0666"  
@@ -60,7 +60,7 @@ See the examples of a simple fm receiver in the examples directory or see a more
 
 
 5.    Credits  
-
-    Some code is taken from qthid-4.1 by Alexandru Csete, OZ9AEC.  
+    &nbsp;  
+Some code is taken from qthid-4.1 by Alexandru Csete, OZ9AEC.  
 
 Thanks to Michael Dickens, who gave valuable hints for implementing message in hier2_blocks.
