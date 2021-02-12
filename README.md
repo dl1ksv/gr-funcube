@@ -24,9 +24,9 @@ $make
 $su  
 $make install  
     
-    After that executing grc  you'll find in Fcd  
+    After that executing grc  you'll find in Funcube 
 
-    Funcube Dongle   
+    Funcube Dongle  
 Funcube Dongle control  
 Funcube Dongle Pro+  
 Funcube Dongle Pro+ control
