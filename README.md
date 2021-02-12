@@ -12,10 +12,10 @@ alsa usb drivers activated
 hidapi-libusb  
 
 2.   Installation:  
-  
+
     The build process is cmake based.  
-    So get the latest code from https://github.com/dl1ksv/gr-funcube  
-and change to code the directory. There   
+So get the latest code from https://github.com/dl1ksv/gr-funcube  
+and change to the code directory. There   
 
     $mkdir build  
 $cd build  
@@ -24,7 +24,7 @@ $make
 $su  
 $make install  
     
-    After that executing grc  you'll find in Funcube 
+    After that executing grc  you'll find in the section Funcube   
 
     Funcube Dongle  
 Funcube Dongle control  
@@ -32,7 +32,8 @@ Funcube Dongle Pro+
 Funcube Dongle Pro+ control
 
 3.   Important  
-Don't forget the udev rules:  
+
+    Don't forget the udev rules:  
 For instance:  
 
   > #### Udev rules for the Funcube Dongle Pro (0xfb56) and Pro+ (0xfb31)
@@ -50,7 +51,8 @@ For instance:
    - fcd  
    - fcdpp_control  
    - funcube  
-   The control modules only controls the dongles, while the other modules control the dongles and provide the IQ samples.
+
+    The control modules only controls the dongles, while the other modules control the dongles and provide the IQ samples.
 All modules accept messages to control the frequency. That was the reason to introduce the control modules.
 
     The fcd modules where introduced, as gnuradio 3.8 does not contain gr-fcd at the moment.  
