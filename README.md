@@ -47,7 +47,7 @@ KERNEL=="hidraw*", ATTRS{busnum}=="1", ATTRS{idVendor}=="04d8", ATTRS{idProduct}
 4.    Usage  
     &nbsp;  
 Four modules are available:  
-   - fcd control  
+   - fcd_control  
    - fcd  
    - fcdpp_control  
    - funcube  
