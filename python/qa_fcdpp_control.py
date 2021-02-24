@@ -9,13 +9,13 @@
 from gnuradio import gr, gr_unittest
 # from gnuradio import blocks
 try:
-    from funcube import fcdpp_control
+    from funcube_python import fcdpp_control
 except ImportError:
     import os
     import sys
     dirname, filename = os.path.split(os.path.abspath(__file__))
     sys.path.append(os.path.join(dirname, "bindings"))
-    from funcube import fcdpp_control
+    from funcube_python import fcdpp_control
 
 class qa_fcdpp_control(gr_unittest.TestCase):
 
