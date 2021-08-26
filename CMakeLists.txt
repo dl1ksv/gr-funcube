@@ -19,15 +19,27 @@ if(DEFINED ENV{PYBOMBS_PREFIX})
     message(STATUS "PyBOMBS installed GNU Radio. Setting CMAKE_INSTALL_PREFIX to $ENV{PYBOMBS_PREFIX}")
 endif()
 
+# First find gnuradio to get access to required cmake modules
+find_package(Gnuradio "3.9" REQUIRED audio blocks)
+# Make sure our local CMake Modules path comes first
+list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
+include(GrBuildTypes)
+
 # Select the release build type by default to get optimization flags
 if(NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE "Release")
    message(STATUS "Build type not specified: defaulting to release.")
 endif(NOT CMAKE_BUILD_TYPE)
+GR_CHECK_BUILD_TYPE(${CMAKE_BUILD_TYPE})
 set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "")
+message(STATUS "Build type set to ${CMAKE_BUILD_TYPE}.")
 
-# Make sure our local CMake Modules path comes first
-list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
+# Set the build date
+string(TIMESTAMP BUILD_DATE "%a, %d %b %Y %H:%M:%SZ" UTC)
+string(TIMESTAMP BUILD_DATE_SHORT "%Y-%m-%d" UTC)
+message(STATUS "Build date set to ${BUILD_DATE}.")
+
+
 
 # Set the version information here
 set(VERSION_MAJOR 1)
@@ -90,7 +102,6 @@ endif()
 ########################################################################
 # Install directories
 ########################################################################
-find_package(Gnuradio "3.9" REQUIRED audio blocks)
 include(GrVersion)
 
 include(GrPlatform) #define LIB_SUFFIX
@@ -179,3 +190,17 @@ add_subdirectory(grc)
 install(FILES cmake/Modules/funcubeConfig.cmake
     DESTINATION ${CMAKE_MODULES_DIR}/funcube
 )
+
+########################################################################
+# Create Pkg Config File
+########################################################################
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/gnuradio-funcube.pc.in
+    ${CMAKE_CURRENT_BINARY_DIR}/gnuradio-funcube.pc
+@ONLY)
+
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/gnuradio-funcube.pc
+    DESTINATION ${GR_LIBRARY_DIR}/pkgconfig
+)
+

@@ -35,7 +35,7 @@ public:
 private:
     gr::audio::source::sptr fcd_audio;   /*!< The audio input source */
     int d_freq_corr;                     /*!< The frequency correction in ppm */
-    int d_freq_req;                      /*!< The latest requested frequency in Hz */
+    unsigned int d_freq_req;                      /*!< The latest requested frequency in Hz */
     fcd_control::sptr fcd_control_block; /*!< The fcd control block */
     gr::logger_ptr d_logger;
 };

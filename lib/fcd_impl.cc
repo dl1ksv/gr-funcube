@@ -66,10 +66,10 @@ fcd_impl::fcd_impl(const std::string user_device_name)
 
     if (!user_device_name.empty()) {
         try {
-            /* Audio source; sample rate fixed at 192kHz */
+            /* Audio source; sample rate fixed at 96kHz */
             fcd_audio = gr::audio::source::make(96000, user_device_name, true);
             success = true;
-        } catch (std::exception) {
+        } catch (std::runtime_error& e) {
             GR_LOG_INFO(d_logger,
                         boost::format("Could not open device: %1%") % user_device_name);
             success = false;
@@ -134,9 +134,9 @@ fcd_impl::~fcd_impl() {}
 void fcd_impl::set_freq(float freq)
 {
     float setfreq;
-    if (d_freq_req == (int)freq)
+    if (d_freq_req == (unsigned int)freq)
         return; // Frequency did not change
-    d_freq_req = (int)freq;
+    d_freq_req = (unsigned int)freq;
     if (d_freq_corr != 0) {
         setfreq = (1. + ((float)d_freq_corr) / 1000000.) * freq;
     } else

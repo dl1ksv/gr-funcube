@@ -1,7 +1,7 @@
 id: funcube_fcdpp
 label: Funcube dongle Pro+
 category: '[Funcube]'
-flags: throttle
+flags: [ python, cpp, throttle ]
 
 parameters:
 - id: device_name
@@ -63,6 +63,23 @@ templates:
     - set_freq_corr(${ppm})
     - set_if_gain(${if_gain})
 
+cpp_templates:
+    includes: ['#include <funcube/fcdpp.h>']
+    declarations: 'funcube::fcdpp::sptr ${id};'
+    callbacks:
+    - set_freq(${freq})
+    - set_lna(${lnaswitch})
+    - set_mixer_gain(${mixergainswitch})
+    - set_freq_corr(${ppm})
+    - set_if_gain(${if_gain})
+    link: ['gnuradio::gnuradio-funcube']
+    packages: ['gnuradio-funcube']
+
+    make:  |-
+        ${id} = funcube::fcdpp::make(
+              ${device_name},
+              ${unit}
+             );
 
 documentation:
 

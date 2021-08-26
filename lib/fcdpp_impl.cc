@@ -68,7 +68,7 @@ fcdpp_impl::fcdpp_impl(const std::string user_device_name, int unit)
             /* Audio source; sample rate fixed at 192kHz */
             fcd = gr::audio::source::make(192000, user_device_name, true);
             success = true;
-        } catch (std::exception) {
+        } catch (std::runtime_error& e) {
             GR_LOG_INFO(d_logger,
                         boost::format("Could not open device: %1%") % user_device_name);
             success = false;
@@ -131,9 +131,9 @@ fcdpp_impl::~fcdpp_impl() {}
 void fcdpp_impl::set_freq(float freq)
 {
     float setfreq;
-    if (d_freq_req == (int)freq)
+    if (d_freq_req == (unsigned int)freq)
         return; // Frequency did not change
-    d_freq_req = (int)freq;
+    d_freq_req = (unsigned int)freq;
     if (d_corr == 0) {
         setfreq = freq * d_unit;
     } else {
