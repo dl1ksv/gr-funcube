@@ -73,7 +73,7 @@ cpp_templates:
     - set_freq_corr(${ppm})
     - set_if_gain(${if_gain})
     link: ['gnuradio::gnuradio-funcube']
-    packages: ['gnuradio-funcube']
+    packages: ['funcube']
 
     make:  |-
         ${id} = funcube::fcdpp::make(

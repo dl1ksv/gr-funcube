@@ -1,9 +1,9 @@
 prefix=@CMAKE_INSTALL_PREFIX@
 exec_prefix=${prefix}
 libdir=${exec_prefix}/@GR_LIBRARY_DIR@
-includedir=${prefix}/@GR_INCLUDE_DIR@/funcube
+includedir=${prefix}/@GR_INCLUDE_DIR@/
 
-Name: gnuradio-funcube
+Name: funcube
 Description: Gnuradio OOT block for funcube and funcube pro+
 URL: http://github.com/dl1ksv/gr-funcube
 Version: @LIBVER@ 

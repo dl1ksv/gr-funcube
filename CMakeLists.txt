@@ -110,7 +110,7 @@ if(NOT CMAKE_MODULES_DIR)
   set(CMAKE_MODULES_DIR lib${LIB_SUFFIX}/cmake)
 endif(NOT CMAKE_MODULES_DIR)
 
-set(GR_INCLUDE_DIR      include/funcube)
+set(GR_INCLUDE_DIR      include)
 set(GR_CMAKE_DIR        ${CMAKE_MODULES_DIR}/funcube)
 set(GR_PKG_DATA_DIR     ${GR_DATA_DIR}/${CMAKE_PROJECT_NAME})
 set(GR_PKG_DOC_DIR      ${GR_DOC_DIR}/${CMAKE_PROJECT_NAME})
@@ -188,19 +188,19 @@ add_subdirectory(grc)
 ########################################################################
 
 install(FILES cmake/Modules/funcubeConfig.cmake
-    DESTINATION ${CMAKE_MODULES_DIR}/funcube
+    DESTINATION ${GR_CMAKE_DIR}
 )
 
 ########################################################################
 # Create Pkg Config File
 ########################################################################
 configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/gnuradio-funcube.pc.in
-    ${CMAKE_CURRENT_BINARY_DIR}/gnuradio-funcube.pc
+    ${CMAKE_CURRENT_SOURCE_DIR}/funcube.pc.in
+    ${CMAKE_CURRENT_BINARY_DIR}/funcube.pc
 @ONLY)
 
 install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/gnuradio-funcube.pc
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/funcube.pc
     DESTINATION ${GR_LIBRARY_DIR}/pkgconfig
 )
 

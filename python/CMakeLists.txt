@@ -30,7 +30,7 @@ GR_PYTHON_INSTALL(
 ########################################################################
 include(GrTest)
 
-set(GR_TEST_TARGET_DEPS gnuradio-funcube)
+set(GR_TEST_TARGET_DEPS funcube)
 set(GR_TEST_PYTHON_DIRS ${CMAKE_BINARY_DIR}/python/bindings)
 GR_ADD_TEST(qa_fcd_control ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_fcd_control.py)
 GR_ADD_TEST(qa_fcd ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_fcd.py)
