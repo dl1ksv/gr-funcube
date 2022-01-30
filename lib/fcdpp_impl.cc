@@ -33,26 +33,8 @@ fcdpp_impl::fcdpp_impl(const std::string user_device_name, int unit)
                       gr::io_signature::make(0, 0, 0),
                       gr::io_signature::make(1, 1, sizeof(gr_complex)))
 {
-    prefs* p = prefs::singleton();
-    std::string config_file = p->get_string("LOG", "log_config", "");
-    std::string log_level = p->get_string("LOG", "log_level", "off");
-    std::string log_file = p->get_string("LOG", "log_file", "");
 
-    GR_CONFIG_LOGGER(config_file);
-
-    GR_LOG_GETLOGGER(LOG, "gr_log." + alias());
-    GR_LOG_SET_LEVEL(LOG, log_level);
-    if (log_file.size() > 0) {
-        if (log_file == "stdout") {
-            GR_LOG_SET_CONSOLE_APPENDER(LOG, "cout", "gr::log :%p: %c{1} - %m%n");
-        } else if (log_file == "stderr") {
-            GR_LOG_SET_CONSOLE_APPENDER(LOG, "cerr", "gr::log :%p: %c{1} - %m%n");
-        } else {
-            GR_LOG_SET_FILE_APPENDER(LOG, log_file, true, "%r :%p: %c{1} - %m%n");
-        }
-    }
-
-    d_logger = LOG;
+    bool found=gr::configure_default_loggers(this->d_logger, this->d_debug_logger, "Funcube Pro+");
 
     std::string device_name;
     bool success;
@@ -62,15 +44,23 @@ fcdpp_impl::fcdpp_impl(const std::string user_device_name, int unit)
     d_freq_req = 0;
     d_corr = 0;
     d_unit = unit;
-
+    if( this->d_logger != nullptr)
+      std::cerr <<"pointer init" << std::endl;
+    else {
+      std::cerr <<"pointer not init" << std::endl;
+      throw std::runtime_error("logger not found.");
+    }
+    this->d_logger->info("Start init fcdpp");
     if (!user_device_name.empty()) {
         try {
             /* Audio source; sample rate fixed at 192kHz */
             fcd = gr::audio::source::make(192000, user_device_name, true);
             success = true;
         } catch (std::exception) {
-            GR_LOG_INFO(d_logger,
-                        boost::format("Could not open device: %1%") % user_device_name);
+            //GR_LOG_INFO(this->d_logger,
+            //
+            //boost::format("Could not open device: %1%") % user_device_name);
+            this->d_logger->info("Could not open device: {:s}",user_device_name);
             success = false;
         }
     }
@@ -104,9 +94,9 @@ fcdpp_impl::fcdpp_impl(const std::string user_device_name, int unit)
         fcd = gr::audio::source::make(192000, device_name, true);
     }
     if (success) {
-        GR_LOG_INFO(d_logger, boost::format("Audio device %1% opened") % device_name);
+        GR_LOG_INFO(this->d_logger, boost::format("Audio device %1% opened") % device_name);
     } else {
-        GR_LOG_INFO(d_logger,
+        GR_LOG_INFO(this->d_logger,
                     boost::format("Funcube Dongle Pro+ found as: %1%") % device_name);
     }
 
@@ -152,7 +142,7 @@ void fcdpp_impl::set_freq_corr(int ppm)
     if (d_corr == ppm)
         return;
     d_corr = ppm;
-    GR_LOG_INFO(d_logger, boost::format("Set frequency correction to: %1% ppm ") % ppm);
+    GR_LOG_INFO(this->d_logger, boost::format("Set frequency correction to: %1% ppm ") % ppm);
     freq = d_freq_req;
     d_freq_req = 0;
     set_freq(freq);
@@ -161,7 +151,7 @@ void fcdpp_impl::set_freq_corr(int ppm)
 void fcdpp_impl::set_if_gain(int gain)
 {
     if ((gain < 0) || gain > 59) {
-        GR_LOG_WARN(d_logger, boost::format("Invalid If gain value: %1%") % gain);
+        GR_LOG_WARN(this->d_logger, boost::format("Invalid If gain value: %1%") % gain);
         return;
     }
     fcd_control_block->set_if_gain(gain);

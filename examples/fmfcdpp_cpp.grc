@@ -6,7 +6,7 @@ options:
     cmake_opt: ''
     comment: ''
     copyright: ''
-    description: ''
+    description: Test for cpp generation
     gen_cmake: 'On'
     gen_linking: dynamic
     generate_options: qt_gui
@@ -23,7 +23,6 @@ options:
     sizing_mode: fixed
     thread_safe_setters: ''
     title: FM radio to test FCDPROplus
-    window_size: (1000,1000)
   states:
     bus_sink: false
     bus_source: false
@@ -89,7 +88,7 @@ blocks:
   parameters:
     comment: ''
     gui_hint: 0,2,1,1
-    label: ''
+    label: Mixergain enable
     label0: 'On'
     label1: 'Off'
     label2: ''
@@ -127,7 +126,7 @@ blocks:
     step: '1'
     stop: '146000'
     value: '94300'
-    widget: counter
+    widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
@@ -192,7 +191,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    device_name: hw:0,0
+    device_name: default
     num_inputs: '2'
     ok_to_block: 'True'
     samp_rate: '48000'
@@ -246,7 +245,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 348.0]
+    coordinate: [520, 332.0]
     rotation: 0
     state: enabled
 - name: qtgui_sink_x_0
@@ -275,7 +274,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [736, 212.0]
+    coordinate: [648, 204.0]
     rotation: 0
     state: enabled
 

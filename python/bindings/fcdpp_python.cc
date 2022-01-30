@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Free Software Foundation, Inc.
+ * Copyright 2021 Free Software Foundation, Inc.
  *
  * This file is part of GNU Radio
  *
@@ -46,31 +46,36 @@ void bind_fcdpp(py::module& m)
 
 
 
-        .def("set_freq",&fcdpp::set_freq,
+        
+        .def("set_freq",&fcdpp::set_freq,       
             py::arg("freq"),
             D(fcdpp,set_freq)
         )
 
 
-        .def("set_lna",&fcdpp::set_lna,
+        
+        .def("set_lna",&fcdpp::set_lna,       
             py::arg("gain"),
             D(fcdpp,set_lna)
         )
 
 
-        .def("set_mixer_gain",&fcdpp::set_mixer_gain,
+        
+        .def("set_mixer_gain",&fcdpp::set_mixer_gain,       
             py::arg("gain"),
             D(fcdpp,set_mixer_gain)
         )
 
 
-        .def("set_freq_corr",&fcdpp::set_freq_corr,
+        
+        .def("set_freq_corr",&fcdpp::set_freq_corr,       
             py::arg("ppm"),
             D(fcdpp,set_freq_corr)
         )
 
 
-        .def("set_if_gain",&fcdpp::set_if_gain,
+        
+        .def("set_if_gain",&fcdpp::set_if_gain,       
             py::arg("gain"),
             D(fcdpp,set_if_gain)
         )
@@ -81,6 +86,7 @@ void bind_fcdpp(py::module& m)
 
 
 }
+
 
 
 

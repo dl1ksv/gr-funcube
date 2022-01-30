@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Free Software Foundation, Inc.
+ * Copyright 2021 Free Software Foundation, Inc.
  *
  * This file is part of GNU Radio
  *
@@ -44,38 +44,44 @@ void bind_fcd_control(py::module& m)
 
 
 
-        .def("set_freq",&fcd_control::set_freq,
+        
+        .def("set_freq",&fcd_control::set_freq,       
             py::arg("freq"),
             D(fcd_control,set_freq)
         )
 
 
-        .def("set_lna_gain",&fcd_control::set_lna_gain,
+        
+        .def("set_lna_gain",&fcd_control::set_lna_gain,       
             py::arg("gain"),
             D(fcd_control,set_lna_gain)
         )
 
 
-        .def("set_mixer_gain",&fcd_control::set_mixer_gain,
+        
+        .def("set_mixer_gain",&fcd_control::set_mixer_gain,       
             py::arg("gain"),
             D(fcd_control,set_mixer_gain)
         )
 
 
-        .def("set_freq_corr",&fcd_control::set_freq_corr,
+        
+        .def("set_freq_corr",&fcd_control::set_freq_corr,       
             py::arg("ppm"),
             D(fcd_control,set_freq_corr)
         )
 
 
-        .def("set_dc_corr",&fcd_control::set_dc_corr,
+        
+        .def("set_dc_corr",&fcd_control::set_dc_corr,       
             py::arg("_dci"),
             py::arg("_dcq"),
             D(fcd_control,set_dc_corr)
         )
 
 
-        .def("set_iq_corr",&fcd_control::set_iq_corr,
+        
+        .def("set_iq_corr",&fcd_control::set_iq_corr,       
             py::arg("_gain"),
             py::arg("_phase"),
             D(fcd_control,set_iq_corr)
@@ -87,6 +93,7 @@ void bind_fcd_control(py::module& m)
 
 
 }
+
 
 
 

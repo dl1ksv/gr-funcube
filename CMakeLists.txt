@@ -30,9 +30,9 @@ set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "")
 list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
 
 # Set the version information here
-set(VERSION_MAJOR 1)
-set(VERSION_API   0)
-set(VERSION_ABI   0)
+set(VERSION_MAJOR 3)
+set(VERSION_API   10)
+set(VERSION_ABI   1)
 set(VERSION_PATCH 0)
 
 cmake_policy(SET CMP0011 NEW)
@@ -90,7 +90,7 @@ endif()
 ########################################################################
 # Install directories
 ########################################################################
-find_package(Gnuradio "3.9" REQUIRED audio blocks)
+find_package(Gnuradio "3.10" REQUIRED audio blocks)
 include(GrVersion)
 
 include(GrPlatform) #define LIB_SUFFIX

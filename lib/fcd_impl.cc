@@ -35,27 +35,6 @@ fcd_impl::fcd_impl(const std::string user_device_name)
       d_freq_corr(-120)
 {
 
-    prefs* p = prefs::singleton();
-    std::string config_file = p->get_string("LOG", "log_config", "");
-    std::string log_level = p->get_string("LOG", "log_level", "off");
-    std::string log_file = p->get_string("LOG", "log_file", "");
-
-    GR_CONFIG_LOGGER(config_file);
-
-    GR_LOG_GETLOGGER(LOG, "gr_log." + alias());
-    GR_LOG_SET_LEVEL(LOG, log_level);
-    if (log_file.size() > 0) {
-        if (log_file == "stdout") {
-            GR_LOG_SET_CONSOLE_APPENDER(LOG, "cout", "gr::log :%p: %c{1} - %m%n");
-        } else if (log_file == "stderr") {
-            GR_LOG_SET_CONSOLE_APPENDER(LOG, "cerr", "gr::log :%p: %c{1} - %m%n");
-        } else {
-            GR_LOG_SET_FILE_APPENDER(LOG, log_file, true, "%r :%p: %c{1} - %m%n");
-        }
-    }
-
-    d_logger = LOG;
-
     std::string device_name;
     bool success;
     gr::blocks::float_to_complex::sptr f2c;
@@ -70,7 +49,7 @@ fcd_impl::fcd_impl(const std::string user_device_name)
             fcd_audio = gr::audio::source::make(96000, user_device_name, true);
             success = true;
         } catch (std::exception) {
-            GR_LOG_INFO(d_logger,
+            GR_LOG_INFO(this->d_logger,
                         boost::format("Could not open device: %1%") % user_device_name);
             success = false;
         }
@@ -106,9 +85,9 @@ fcd_impl::fcd_impl(const std::string user_device_name)
         fcd_audio = gr::audio::source::make(96000, device_name, true);
     }
     if (success) {
-        GR_LOG_INFO(d_logger, boost::format("Audio device %1% opened") % device_name);
+        GR_LOG_INFO(this->d_logger, boost::format("Audio device %1% opened") % device_name);
     } else {
-        GR_LOG_INFO(d_logger,
+        GR_LOG_INFO(this->d_logger,
                     boost::format("Funcube Dongle found as: %1%") % device_name);
     }
 
