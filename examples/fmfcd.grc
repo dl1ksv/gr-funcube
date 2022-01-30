@@ -23,6 +23,7 @@ options:
     sizing_mode: fixed
     thread_safe_setters: ''
     title: FM radio to test FCDPROplus
+    window_size: (1000,1000)
   states:
     bus_sink: false
     bus_source: false
@@ -39,7 +40,7 @@ blocks:
     gui_hint: 0,3,1,1
     label: IFGain
     min_len: '45'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: int
     start: '0'
     step: '1'
@@ -120,7 +121,7 @@ blocks:
     gui_hint: 0,0,1,1
     label: 'Set Frequency '
     min_len: '200'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: float
     start: '80000'
     step: '1'
@@ -214,10 +215,10 @@ blocks:
     freq: RxFrequency*1000
     iq_gain: '1.0'
     iq_phase: '0.0'
-    lna: '20.0'
+    lna: Lna
     maxoutbuf: '0'
     minoutbuf: '0'
-    mixer: '+12'
+    mixer: Ifgain
     ppm: '-120'
   states:
     bus_sink: false
@@ -242,12 +243,12 @@ blocks:
     samp_rate: samp_rate
     type: fir_filter_ccf
     width: '500'
-    win: firdes.WIN_HAMMING
+    win: window.WIN_HAMMING
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [400, 324.0]
+    coordinate: [368, 380.0]
     rotation: 0
     state: enabled
 - name: qtgui_sink_x_0
@@ -271,7 +272,7 @@ blocks:
     showports: 'False'
     showrf: 'True'
     type: complex
-    wintype: firdes.WIN_BLACKMAN_hARRIS
+    wintype: window.WIN_BLACKMAN_hARRIS
   states:
     bus_sink: false
     bus_source: false
@@ -287,8 +288,6 @@ connections:
 - [funcube_fcd_0, '0', low_pass_filter_0, '0']
 - [funcube_fcd_0, '0', qtgui_sink_x_0, '0']
 - [low_pass_filter_0, '0', analog_fm_demod_cf_0, '0']
-- [qtgui_sink_x_0, freq, funcube_fcd_0, freq]
-- [qtgui_sink_x_0, freq, qtgui_sink_x_0, freq]
 
 metadata:
   file_format: 1

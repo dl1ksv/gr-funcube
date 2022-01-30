@@ -35,6 +35,10 @@ fcd_impl::fcd_impl(const std::string user_device_name)
       d_freq_corr(-120)
 {
 
+    bool found=gr::configure_default_loggers(this->d_logger, this->d_debug_logger, "Funcube Pro");
+    if( !found)
+        throw std::runtime_error("logger not found.");
+
     std::string device_name;
     bool success;
     gr::blocks::float_to_complex::sptr f2c;
@@ -48,9 +52,8 @@ fcd_impl::fcd_impl(const std::string user_device_name)
             /* Audio source; sample rate fixed at 192kHz */
             fcd_audio = gr::audio::source::make(96000, user_device_name, true);
             success = true;
-        } catch (std::exception) {
-            GR_LOG_INFO(this->d_logger,
-                        boost::format("Could not open device: %1%") % user_device_name);
+        } catch (std::exception const&) {
+            this->d_logger->info("Could not open device: {:s}",user_device_name);
             success = false;
         }
     }
@@ -85,10 +88,9 @@ fcd_impl::fcd_impl(const std::string user_device_name)
         fcd_audio = gr::audio::source::make(96000, device_name, true);
     }
     if (success) {
-        GR_LOG_INFO(this->d_logger, boost::format("Audio device %1% opened") % device_name);
+        this->d_logger->info("Audio device {:s} opened", device_name);
     } else {
-        GR_LOG_INFO(this->d_logger,
-                    boost::format("Funcube Dongle found as: %1%") % device_name);
+        this->d_logger->info("Funcube Dongle found as: {:s}", device_name);
     }
 
     /* block to convert stereo audio to a complex stream */

@@ -35,6 +35,8 @@ fcdpp_impl::fcdpp_impl(const std::string user_device_name, int unit)
 {
 
     bool found=gr::configure_default_loggers(this->d_logger, this->d_debug_logger, "Funcube Pro+");
+    if( !found)
+        throw std::runtime_error("logger not found.");
 
     std::string device_name;
     bool success;
@@ -44,22 +46,14 @@ fcdpp_impl::fcdpp_impl(const std::string user_device_name, int unit)
     d_freq_req = 0;
     d_corr = 0;
     d_unit = unit;
-    if( this->d_logger != nullptr)
-      std::cerr <<"pointer init" << std::endl;
-    else {
-      std::cerr <<"pointer not init" << std::endl;
-      throw std::runtime_error("logger not found.");
-    }
+
     this->d_logger->info("Start init fcdpp");
     if (!user_device_name.empty()) {
         try {
             /* Audio source; sample rate fixed at 192kHz */
             fcd = gr::audio::source::make(192000, user_device_name, true);
             success = true;
-        } catch (std::exception) {
-            //GR_LOG_INFO(this->d_logger,
-            //
-            //boost::format("Could not open device: %1%") % user_device_name);
+        } catch (std::exception const&) {
             this->d_logger->info("Could not open device: {:s}",user_device_name);
             success = false;
         }
@@ -94,10 +88,9 @@ fcdpp_impl::fcdpp_impl(const std::string user_device_name, int unit)
         fcd = gr::audio::source::make(192000, device_name, true);
     }
     if (success) {
-        GR_LOG_INFO(this->d_logger, boost::format("Audio device %1% opened") % device_name);
+        this->d_logger->info("Audio device {:s} opened", device_name);
     } else {
-        GR_LOG_INFO(this->d_logger,
-                    boost::format("Funcube Dongle Pro+ found as: %1%") % device_name);
+        this->d_logger->info("Funcube Dongle Pro+ found as: {:s}",device_name);
     }
 
     /* block to convert stereo audio to a complex stream */
@@ -121,7 +114,7 @@ fcdpp_impl::~fcdpp_impl() {}
 void fcdpp_impl::set_freq(float freq)
 {
     float setfreq;
-    if (d_freq_req == (int)freq)
+    if (d_freq_req == (unsigned int)freq)
         return; // Frequency did not change
     d_freq_req = (int)freq;
     if (d_corr == 0) {
@@ -142,7 +135,7 @@ void fcdpp_impl::set_freq_corr(int ppm)
     if (d_corr == ppm)
         return;
     d_corr = ppm;
-    GR_LOG_INFO(this->d_logger, boost::format("Set frequency correction to: %1% ppm ") % ppm);
+    this->d_logger->info("Set frequency correction to: {:i} ppm ", ppm);
     freq = d_freq_req;
     d_freq_req = 0;
     set_freq(freq);
@@ -151,7 +144,7 @@ void fcdpp_impl::set_freq_corr(int ppm)
 void fcdpp_impl::set_if_gain(int gain)
 {
     if ((gain < 0) || gain > 59) {
-        GR_LOG_WARN(this->d_logger, boost::format("Invalid If gain value: %1%") % gain);
+        this->d_logger->warn("Invalid If gain value: {:i}", gain);
         return;
     }
     fcd_control_block->set_if_gain(gain);
