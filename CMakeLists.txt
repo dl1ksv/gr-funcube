@@ -32,43 +32,52 @@ list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
 # Set the version information here
 set(VERSION_MAJOR 3)
 set(VERSION_API   10)
-set(VERSION_ABI   1)
+set(VERSION_ABI   0)
 set(VERSION_PATCH 0)
 
-cmake_policy(SET CMP0011 NEW)
+#find required gnuradio installation
+find_package(Gnuradio "3.10" REQUIRED audio blocks)
+include(GrVersion)
+
+#Set minimum version requirements
+include(GrMinReq)
 
 # Enable generation of compile_commands.json for code completion engines
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 ########################################################################
-# Compiler specific setup
+# Compiler settings
 ########################################################################
-if((CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR
-    CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    AND NOT WIN32)
-    #http://gcc.gnu.org/wiki/Visibility
-    add_definitions(-fvisibility=hidden)
-endif()
 
-IF(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    SET(CMAKE_CXX_STANDARD 11)
-ELSEIF(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    SET(CMAKE_CXX_STANDARD 11)
-ELSEIF(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    SET(CMAKE_CXX_STANDARD 11)
-ELSE()
-    message(WARNING "C++ standard could not be set because compiler is not GNU, Clang or MSVC.")
-ENDIF()
+include(GrCompilerSettings)
 
-IF(CMAKE_C_COMPILER_ID STREQUAL "GNU")
-    SET(CMAKE_C_STANDARD 11)
-ELSEIF(CMAKE_C_COMPILER_ID MATCHES "Clang")
-    SET(CMAKE_C_STANDARD 11)
-ELSEIF(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
-    SET(CMAKE_C_STANDARD 11)
+# Record Compiler Info for record
+STRING(TOUPPER ${CMAKE_BUILD_TYPE} GRCBTU)
+SET(COMPILER_INFO "")
+IF(MSVC)
+    IF(MSVC_VERSION LESS "${MSVC_MIN_VERSION}")
+        MESSAGE(FATAL_ERROR "MSVC Versions < minimum version ${MSVC_MIN_VERSION}")
+    ENDIF()
+    SET(cmake_c_compiler_version ${MSVC_VERSION})
+    SET(cmake_cxx_compiler_version ${MSVC_VERSION})
 ELSE()
-    message(WARNING "C standard could not be set because compiler is not GNU, Clang or MSVC.")
-ENDIF()
+    execute_process(COMMAND ${CMAKE_C_COMPILER} --version
+            OUTPUT_VARIABLE cmake_c_compiler_version)
+    execute_process(COMMAND ${CMAKE_CXX_COMPILER} --version
+            OUTPUT_VARIABLE cmake_cxx_compiler_version)
+ENDIF(MSVC)
+SET(COMPILER_INFO "${CMAKE_C_COMPILER}:::${CMAKE_C_FLAGS_${GRCBTU}} ${CMAKE_C_FLAGS}\n${CMAKE_CXX_COMPILER}:::${CMAKE_CXX_FLAGS_${GRCBTU}} ${CMAKE_CXX_FLAGS}\n" )
+
+# Convert to a C string to compile and display properly
+string(STRIP "${cmake_c_compiler_version}" cmake_c_compiler_version)
+string(STRIP "${cmake_cxx_compiler_version}" cmake_cxx_compiler_version)
+string(STRIP ${COMPILER_INFO} COMPILER_INFO)
+MESSAGE(STATUS "Compiler Version: ${cmake_c_compiler_version}")
+MESSAGE(STATUS "Compiler Flags: ${COMPILER_INFO}")
+string(REPLACE "\n" " \\n" cmake_c_compiler_version ${cmake_c_compiler_version})
+string(REPLACE "\n" " \\n" cmake_cxx_compiler_version ${cmake_cxx_compiler_version})
+string(REPLACE "\n" " \\n" COMPILER_INFO ${COMPILER_INFO})
+
 ########################################################################
 # Find funcube dependencies
 ########################################################################
@@ -90,8 +99,6 @@ endif()
 ########################################################################
 # Install directories
 ########################################################################
-find_package(Gnuradio "3.10" REQUIRED audio blocks)
-include(GrVersion)
 
 include(GrPlatform) #define LIB_SUFFIX
 
