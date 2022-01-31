@@ -135,7 +135,7 @@ void fcdpp_impl::set_freq_corr(int ppm)
     if (d_corr == ppm)
         return;
     d_corr = ppm;
-    this->d_logger->info("Set frequency correction to: {:i} ppm ", ppm);
+    this->d_logger->info("Set frequency correction to: {:d} ppm ", ppm);
     freq = d_freq_req;
     d_freq_req = 0;
     set_freq(freq);
@@ -144,7 +144,7 @@ void fcdpp_impl::set_freq_corr(int ppm)
 void fcdpp_impl::set_if_gain(int gain)
 {
     if ((gain < 0) || gain > 59) {
-        this->d_logger->warn("Invalid If gain value: {:i}", gain);
+        this->d_logger->warn("Invalid If gain value: {:d}", gain);
         return;
     }
     fcd_control_block->set_if_gain(gain);

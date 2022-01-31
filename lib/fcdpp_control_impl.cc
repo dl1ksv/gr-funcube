@@ -61,15 +61,8 @@ fcdpp_control_impl::fcdpp_control_impl()
     /*
      * Initialize message handling
      *
-     * Replace boost::function with std::function
-     *
      */
     message_port_register_in(pmt::mp("freq"));
-    /*
-     * set_msg_handler(
-     *   pmt::mp("freq"),
-     *   boost::bind(&fcdpp_control_impl::set_frequency_msg, this, _1));
-     */
 
     set_msg_handler(pmt::mp("freq"), [this](pmt::pmt_t msg) {
         this->fcdpp_control_impl::set_frequency_msg(msg);
