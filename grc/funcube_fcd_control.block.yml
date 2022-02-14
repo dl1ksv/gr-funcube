@@ -15,10 +15,6 @@ parameters:
     label: Mixer Gain (dB)
     dtype: real
     default: '+12'
--   id: ppm
-    label: Frequency corr. (ppm)
-    dtype: int
-    default: '-120'
 -   id: dci
     label: DC I offset
     dtype: real

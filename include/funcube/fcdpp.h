@@ -50,7 +50,7 @@ public:
      * applying the frequency correction set by set_freq_corr().
      *
      */
-    virtual void set_freq(float freq) = 0;
+    virtual void set_freq(double freq) = 0;
 
     /*! \brief Switches the LNA on/off.
      *  \param gain  lna on/off.
@@ -71,7 +71,7 @@ public:
      *
      * Ref: http://www.funcubedongle.com/MyImages/FCD2ManualV4.pdf
      */
-    virtual void set_freq_corr(int ppm) = 0;
+    virtual void set_freq_corr(double ppm) = 0;
 
     /*! \brief Set If gain.
      *  \param gain The If gain value between 0 and 59 db

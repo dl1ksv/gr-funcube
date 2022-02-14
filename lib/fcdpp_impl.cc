@@ -44,7 +44,7 @@ fcdpp_impl::fcdpp_impl(const std::string user_device_name, int unit)
 
     success = false;
     d_freq_req = 0;
-    d_corr = 0;
+    d_freq_corr = 0;
     d_unit = unit;
 
     this->d_logger->info("Start init fcdpp");
@@ -111,16 +111,16 @@ fcdpp_impl::fcdpp_impl(const std::string user_device_name, int unit)
  */
 fcdpp_impl::~fcdpp_impl() {}
 
-void fcdpp_impl::set_freq(float freq)
+void fcdpp_impl::set_freq(double freq)
 {
-    float setfreq;
-    if (d_freq_req == (unsigned int)freq)
+    double setfreq;
+    if (d_freq_req == freq)
         return; // Frequency did not change
-    d_freq_req = (int)freq;
-    if (d_corr == 0) {
+    d_freq_req = freq;
+    if (d_freq_corr == 0.) {
         setfreq = freq * d_unit;
     } else {
-        setfreq = ((float)d_unit + ((float)d_corr) / (1000000. / d_unit)) * freq;
+        setfreq = (d_unit + d_freq_corr *d_unit / 1000000.) * freq;
     }
     fcd_control_block->set_freq(setfreq);
 }
@@ -129,13 +129,13 @@ void fcdpp_impl::set_lna(int gain) { fcd_control_block->set_lna(gain); }
 
 void fcdpp_impl::set_mixer_gain(int gain) { fcd_control_block->set_mixer_gain(gain); }
 
-void fcdpp_impl::set_freq_corr(int ppm)
+void fcdpp_impl::set_freq_corr(double ppm)
 {
     float freq;
-    if (d_corr == ppm)
+    if (d_freq_corr == ppm)
         return;
-    d_corr = ppm;
-    this->d_logger->info("Set frequency correction to: {:d} ppm ", ppm);
+    d_freq_corr = ppm;
+    this->d_logger->info("Set frequency correction to: {} ppm ", ppm);
     freq = d_freq_req;
     d_freq_req = 0;
     set_freq(freq);

@@ -25,9 +25,9 @@ public:
     ~fcdpp_control_impl();
 
     /* Public API functions documented in include/funcube/fcdpp_control.h */
-    void set_freq(float freq);
-    void set_lna(int gain);
-    void set_mixer_gain(int gain);
+    void set_freq(double freq) override;
+    void set_lna(int gain) override;
+    void set_mixer_gain(int gain) override;
     void set_if_gain(int gain);
     void set_frequency_msg(pmt::pmt_t msg);
 };

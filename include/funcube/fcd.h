@@ -49,7 +49,7 @@ public:
      * order to allow using engineering notation in GRC.
      *
      */
-    virtual void set_freq(float freq) = 0;
+    virtual void set_freq(double freq) = 0;
 
 
     /*! \brief Set LNA gain.
@@ -86,7 +86,7 @@ public:
      *
      * Ref: http://www.funcubedongle.com/?p=617
      */
-    virtual void set_freq_corr(int ppm) = 0;
+    virtual void set_freq_corr(double ppm) = 0;
 
     /*! \brief Set DC offset correction.
      *  \param _dci DC correction for I component (-1.0 to 1.0)

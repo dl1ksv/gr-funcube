@@ -32,7 +32,7 @@ fcd_impl::fcd_impl(const std::string user_device_name)
     : gr::hier_block2("fcd",
                       gr::io_signature::make(0, 0, 0),
                       gr::io_signature::make(1, 1, sizeof(gr_complex))),
-      d_freq_corr(-120)
+      d_freq_corr(-120.)
 {
 
     bool found=gr::configure_default_loggers(this->d_logger, this->d_debug_logger, "Funcube Pro");
@@ -45,11 +45,11 @@ fcd_impl::fcd_impl(const std::string user_device_name)
 
     success = false;
     d_freq_req = 0;
-    d_freq_corr = 0;
 
+    this->d_logger->info("Start init fcd");
     if (!user_device_name.empty()) {
         try {
-            /* Audio source; sample rate fixed at 192kHz */
+            /* Audio source; sample rate fixed at 96kHz */
             fcd_audio = gr::audio::source::make(96000, user_device_name, true);
             success = true;
         } catch (std::exception const&) {
@@ -112,15 +112,15 @@ fcd_impl::fcd_impl(const std::string user_device_name)
 fcd_impl::~fcd_impl() {}
 
 // Set frequency with Hz resolution (type float)
-void fcd_impl::set_freq(float freq)
+void fcd_impl::set_freq(double freq)
 {
-    float setfreq;
-    if (d_freq_req == (int)freq)
+    double setfreq;
+    if (d_freq_req == freq)
         return; // Frequency did not change
-    d_freq_req = (int)freq;
-    if (d_freq_corr != 0) {
-        setfreq = (1. + ((float)d_freq_corr) / 1000000.) * freq;
-    } else
+    d_freq_req = freq;
+    if (d_freq_corr != 0.)
+        setfreq = (1. + d_freq_corr / 1000000.) * freq;
+    else
         setfreq = freq;
     fcd_control_block->set_freq(setfreq);
 }
@@ -132,11 +132,17 @@ void fcd_impl::set_lna_gain(float gain) { fcd_control_block->set_lna_gain(gain);
 void fcd_impl::set_mixer_gain(float gain) { fcd_control_block->set_mixer_gain(gain); }
 
 // Set new frequency correction
-void fcd_impl::set_freq_corr(int ppm)
+void fcd_impl::set_freq_corr(double ppm)
 {
+    double freq;
+    if (d_freq_corr == ppm)
+        return;
     d_freq_corr = ppm;
     // re-tune with new correction value
-    // set_freq(d_freq_req);
+    this->d_logger->info("Set frequency correction to: {} ppm ", ppm);
+    freq = d_freq_req;
+    d_freq_req = 0;
+    set_freq(freq);
 }
 
 // Set DC offset correction.

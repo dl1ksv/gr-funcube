@@ -13,8 +13,8 @@
 /* If manual edits are made, the following tags should be modified accordingly.    */
 /* BINDTOOL_GEN_AUTOMATIC(0)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
-/* BINDTOOL_HEADER_FILE(fcd_control.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(a0b4bc6c7869f7fd9e86ec180d68d6a2)                     */
+/* BINDTOOL_HEADER_FILE(fcd_control.h)                                             */
+/* BINDTOOL_HEADER_FILE_HASH(a2f735aaf3949e0005bf8ec9c1ebb71f)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -65,14 +65,6 @@ void bind_fcd_control(py::module& m)
         )
 
 
-        
-        .def("set_freq_corr",&fcd_control::set_freq_corr,       
-            py::arg("ppm"),
-            D(fcd_control,set_freq_corr)
-        )
-
-
-        
         .def("set_dc_corr",&fcd_control::set_dc_corr,       
             py::arg("_dci"),
             py::arg("_dcq"),
