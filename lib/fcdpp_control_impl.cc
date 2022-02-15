@@ -110,13 +110,13 @@ void fcdpp_control_impl::set_frequency_msg(pmt::pmt_t msg)
     // "freq" and the value is the new frequency.
     GR_LOG_DEBUG(d_logger, "Funcube Control frequency message arrived");
     if (pmt::is_number(msg)) {
-        set_freq(pmt::to_float(msg));
+        set_freq(pmt::to_double(msg));
     } else if (pmt::is_pair(msg)) {
         pmt::pmt_t key = pmt::car(msg);
         pmt::pmt_t val = pmt::cdr(msg);
         if (pmt::eq(key, pmt::intern("freq"))) {
             if (pmt::is_number(val)) {
-                set_freq(pmt::to_float(val));
+                set_freq(pmt::to_double(val));
             }
         } else {
             GR_LOG_WARN(

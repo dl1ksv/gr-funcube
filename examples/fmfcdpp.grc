@@ -37,10 +37,11 @@ blocks:
   id: variable_qtgui_range
   parameters:
     comment: ''
-    gui_hint: 0,3,1,1
+    gui_hint: 0,2,1,1
     label: IFGain
     min_len: '45'
     orient: QtCore.Qt.Horizontal
+    outputmsgname: value
     rangeType: int
     start: '0'
     step: '1'
@@ -58,7 +59,7 @@ blocks:
   id: variable_qtgui_chooser
   parameters:
     comment: ''
-    gui_hint: 0,1,1,1
+    gui_hint: 0,0,1,1
     label: LNA Enable/Disable
     label0: 'On'
     label1: 'Off'
@@ -81,14 +82,14 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [499, 15]
+    coordinate: [536, 4.0]
     rotation: 0
     state: enabled
 - name: Mixergain
   id: variable_qtgui_chooser
   parameters:
     comment: ''
-    gui_hint: 0,2,1,1
+    gui_hint: 0,1,1,1
     label: ''
     label0: 'On'
     label1: 'Off'
@@ -118,21 +119,22 @@ blocks:
   id: variable_qtgui_range
   parameters:
     comment: ''
-    gui_hint: 0,0,1,1
+    gui_hint: 1,0,1,3
     label: 'Set Frequency '
-    min_len: '200'
+    min_len: '800'
     orient: QtCore.Qt.Horizontal
+    outputmsgname: freq
     rangeType: float
-    start: '80000'
-    step: '1'
-    stop: '146000'
-    value: '94300'
-    widget: counter
+    start: '80000000'
+    step: '1000'
+    stop: '146000000'
+    value: '94300000'
+    widget: dial
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [345, 19]
+    coordinate: [312, 68.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -203,6 +205,20 @@ blocks:
     coordinate: [1200, 392.0]
     rotation: 0
     state: enabled
+- name: blocks_message_debug_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1200, 200.0]
+    rotation: 0
+    state: true
 - name: funcube_fcdpp_0
   id: funcube_fcdpp
   parameters:
@@ -210,19 +226,19 @@ blocks:
     alias: ''
     comment: ''
     device_name: ' ""'
-    freq: RxFrequency
+    freq: '94300'
     if_gain: Ifgain
     lnaswitch: Lna
     maxoutbuf: '0'
     minoutbuf: '0'
     mixergainswitch: Mixergain
-    ppm: '0'
+    ppm: '6'
     unit: '1000'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [72, 292.0]
+    coordinate: [104, 292.0]
     rotation: 0
     state: true
 - name: low_pass_filter_0
@@ -256,18 +272,18 @@ blocks:
     alias: ''
     bw: samp_rate
     comment: ''
-    fc: RxFrequency*1000
+    fc: 94300*1000
     fftsize: '1024'
-    gui_hint: 1,0,1,7
+    gui_hint: 2,0,7,3
     maxoutbuf: '0'
     minoutbuf: '0'
     name: QT GUI Plot
     plotconst: 'False'
     plotfreq: 'True'
     plottime: 'False'
-    plotwaterfall: 'True'
+    plotwaterfall: 'False'
     rate: '10'
-    showports: 'False'
+    showports: 'True'
     showrf: 'True'
     type: complex
     wintype: window.WIN_BLACKMAN_hARRIS
@@ -275,11 +291,14 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [736, 212.0]
+    coordinate: [672, 180.0]
     rotation: 0
     state: enabled
 
 connections:
+- [RxFrequency, value, blocks_message_debug_0, print]
+- [RxFrequency, value, funcube_fcdpp_0, freq]
+- [RxFrequency, value, qtgui_sink_x_0, freq]
 - [analog_fm_deemph_0, '0', audio_sink_0, '0']
 - [analog_fm_deemph_0, '0', audio_sink_0, '1']
 - [analog_fm_demod_cf_0, '0', analog_fm_deemph_0, '0']

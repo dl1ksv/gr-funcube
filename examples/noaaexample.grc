@@ -15,7 +15,7 @@ options:
     max_nouts: '0'
     output_language: python
     placement: (0,0)
-    qt_qss_theme: /home/schroer/gnuradiocomponents/gnuradio/gr-qtgui/themes/plain.qss
+    qt_qss_theme: ''
     realtime_scheduling: ''
     run: 'True'
     run_command: '{python} -u {filename}'
@@ -23,6 +23,7 @@ options:
     sizing_mode: fixed
     thread_safe_setters: ''
     title: ''
+    window_size: (1000,1000)
   states:
     bus_sink: false
     bus_source: false
@@ -69,7 +70,7 @@ blocks:
     gui_hint: Rx@0:0,2,1,1
     label: ''
     min_len: '80'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: int
     start: '0'
     step: '1'
@@ -150,7 +151,7 @@ blocks:
     gui_hint: Rx@0:0,1,1,1
     label: Set Frequency Offset
     min_len: '130'
-    orient: Qt.Horizontal
+    orient: QtCore.Qt.Horizontal
     rangeType: float
     start: '-50000'
     step: '1000'
@@ -352,7 +353,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    const: '1'
+    const: '0.025'
     maxoutbuf: '0'
     minoutbuf: '0'
     type: float
@@ -467,7 +468,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     mixergainswitch: Mixergain
-    ppm: '0'
+    ppm: '6'
     unit: '1000'
   states:
     bus_sink: false
@@ -626,7 +627,7 @@ blocks:
     showports: 'True'
     type: complex
     update_time: '0.10'
-    wintype: firdes.WIN_BLACKMAN_hARRIS
+    wintype: window.WIN_BLACKMAN_hARRIS
   states:
     bus_sink: false
     bus_source: false
@@ -673,3 +674,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: v3.10.0.0-22-g7712360d
