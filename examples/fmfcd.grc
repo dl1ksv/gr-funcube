@@ -212,14 +212,14 @@ blocks:
     dci: '0.0'
     dcq: '0.0'
     devicename: ''
-    freq: RxFrequency*1000
+    freq: '1447881825'
     iq_gain: '1.0'
     iq_phase: '0.0'
     lna: Lna
     maxoutbuf: '0'
     minoutbuf: '0'
     mixer: Ifgain
-    ppm: '-120'
+    ppm: '0'
   states:
     bus_sink: false
     bus_source: false
@@ -291,3 +291,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: v3.10.0.0-22-g7712360d
