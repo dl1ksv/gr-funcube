@@ -44,10 +44,10 @@ fcd_control_impl::fcd_control_impl()
     hid_init();
     d_control_handle = hid_open(FCD_VENDOR_ID, FCD_PRODUCT_ID, NULL);
     if (d_control_handle == NULL) {
-        GR_LOG_ERROR(d_logger, "FunCube Dongle  V1.0 not found.");
+        d_logger->error("FunCube Dongle  V1.0 not found.");
         throw std::runtime_error("FunCube Dongle  V1.0 not found.");
     } else {
-        GR_LOG_INFO(d_logger, "FunCube Dongle  V1.0 initialized.");
+        d_logger->info("FunCube Dongle  V1.0 initialized.");
     }
     /*
      * Check mode, so
@@ -59,7 +59,7 @@ fcd_control_impl::fcd_control_impl()
     hid_write(d_control_handle, aucBuf, 65);
     hid_read(d_control_handle, aucBuf, 65);
     aucBuf[15] = 0;
-    GR_LOG_INFO(d_logger, boost::format("Dongle: %S ") % &aucBuf[2]);
+    d_logger->info("Dongle: {:s}", &aucBuf[2]);
     /*
      * Initialize message handling
      *
@@ -108,9 +108,9 @@ void fcd_control_impl::set_freq(float freq)
         nfreq += (unsigned int)(aucBuf[3] << 8);
         nfreq += (unsigned int)(aucBuf[4] << 16);
         nfreq += (unsigned int)(aucBuf[5] << 24);
-        GR_LOG_INFO(d_logger, boost::format("Set Frequency to: %1% Hz") % nfreq);
+        d_logger->info("Set Frequency to: {:d} Hz", nfreq);
     } else {
-        GR_LOG_INFO(d_logger, boost::format("Set Frequency to %1% Hz failed") % nfreq);
+        d_logger->error("Set Frequency to {:d} Hz failed", nfreq);
     }
 }
 
@@ -154,12 +154,11 @@ void fcd_control_impl::set_lna_gain(float gain)
     hid_write(d_control_handle, aucBuf, 65);
     hid_read(d_control_handle, aucBuf, 65);
     if (aucBuf[0] == FCD_HID_CMD_SET_LNA_GAIN) {
-        GR_LOG_INFO(d_logger, boost::format("LNA gain set to: %1$7d") % gain);
+        d_logger->info("LNA gain set to: {:g}", gain);
     } else {
-        GR_LOG_ERROR(
-            d_logger,
-            boost::format("Failed to modify LNA gain. Result of transaction: %1%,%2%") %
-                aucBuf[0] % aucBuf[1]);
+        d_logger->error("Failed to modify LNA gain. Result of transaction: {:d},{:d}",
+                        aucBuf[0],
+                        aucBuf[1]);
     }
 }
 
@@ -181,14 +180,13 @@ void fcd_control_impl::set_mixer_gain(float gain)
     hid_write(d_control_handle, aucBuf, 65);
     hid_read(d_control_handle, aucBuf, 65);
     if (aucBuf[0] == FCD_HID_CMD_SET_MIXER_GAIN) {
-        GR_LOG_INFO(d_logger, boost::format("Mixer gain set to: %1$7d") % gain);
+        d_logger->info("Mixer gain set to: {:g}", gain);
     }
 
     else {
-        GR_LOG_ERROR(
-            d_logger,
-            boost::format("Failed to modify Mixer gain. Result of transaction: %1%,%2%") %
-                aucBuf[0] % aucBuf[1]);
+        d_logger->error("Failed to modify Mixer gain. Result of transaction: {:d},{:d}",
+                        aucBuf[0],
+                        aucBuf[1]);
     }
 }
 
@@ -225,14 +223,14 @@ void fcd_control_impl::set_dc_corr(double _dci, double _dcq)
     hid_write(d_control_handle, aucBuf, 65);
     hid_read(d_control_handle, aucBuf, 65);
     if (aucBuf[0] == FCD_CMD_APP_SET_DC_CORR) {
-        GR_LOG_INFO(d_logger, "DC offset correction set ");
+        d_logger->info("DC offset correction set");
     }
 
     else {
-        GR_LOG_ERROR(d_logger,
-                     boost::format("Failed to set DC offset correction. "
-                                   "Result of transaction: %1%,%2%") %
-                         aucBuf[0] % aucBuf[1]);
+        d_logger->error(
+            "Failed to set DC offset correction. Result of transaction: {:d},{:d}",
+            aucBuf[0],
+            aucBuf[1]);
     }
 }
 
@@ -261,14 +259,14 @@ void fcd_control_impl::set_iq_corr(double _gain, double _phase)
     hid_write(d_control_handle, aucBuf, 65);
     hid_read(d_control_handle, aucBuf, 65);
     if (aucBuf[0] == FCD_CMD_APP_SET_IQ_CORR) {
-        GR_LOG_INFO(d_logger, "IQ phase and gain balance set");
+        d_logger->info("IQ phase and gain balance set");
     }
 
     else {
-        GR_LOG_ERROR(d_logger,
-                     boost::format("Failed to set IQ phase and gain balance. "
-                                   "Result of transaction: %1%,%2%") %
-                         aucBuf[0] % aucBuf[1]);
+        d_logger->error(
+            "Failed to set IQ phase and gain balance. Result of transaction: {:d},{:d}",
+            aucBuf[0],
+            aucBuf[1]);
     }
 }
 
@@ -277,7 +275,7 @@ void fcd_control_impl::set_frequency_msg(pmt::pmt_t msg)
     // Accepts either a number that is assumed to be the new
     // frequency or a key:value pair message where the key must be
     // "freq" and the value is the new frequency.
-    GR_LOG_DEBUG(d_logger, "Funcube Control frequency message arrived");
+    d_logger->debug("Funcube Control frequency message arrived");
     if (pmt::is_number(msg)) {
         set_freq(pmt::to_float(msg));
     } else if (pmt::is_pair(msg)) {
@@ -288,16 +286,13 @@ void fcd_control_impl::set_frequency_msg(pmt::pmt_t msg)
                 set_freq(pmt::to_float(val));
             }
         } else {
-            GR_LOG_WARN(
-                d_logger,
-                boost::format(
-                    "Set Frequency Message must have the key = 'freq'; got '%1%'.") %
-                    pmt::write_string(key));
+            d_logger->warn(
+                "Set Frequency Message must have the key = 'freq'; got '{:s}'.",
+                pmt::write_string(key));
         }
     } else {
-        GR_LOG_WARN(d_logger,
-                    "Set Frequency Message must be either a number or a "
-                    "key:value pair where the key is 'freq'.");
+        d_logger->warn("Set Frequency Message must be either a number or a "
+                       "key:value pair where the key is 'freq'.");
     }
 }
 

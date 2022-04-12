@@ -41,10 +41,10 @@ fcdpp_control_impl::fcdpp_control_impl()
     hid_init();
     d_control_handle = hid_open(FCDPROPLUS_VENDOR_ID, FCDPROPLUS_PRODUCT_ID, NULL);
     if (d_control_handle == NULL) {
-        GR_LOG_ERROR(d_logger, "FunCube Dongle  V2.0 not found.");
+        d_logger->error("FunCube Dongle  V2.0 not found.");
         throw std::runtime_error("FunCube Dongle  V2.0 not found.");
     } else {
-        GR_LOG_INFO(d_logger, "FunCube Dongle  V2.0 initialized.");
+        d_logger->info("FunCube Dongle  V2.0 initialized.");
     }
 
     /*
@@ -57,7 +57,7 @@ fcdpp_control_impl::fcdpp_control_impl()
     hid_write(d_control_handle, aucBuf, 65);
     hid_read(d_control_handle, aucBuf, 65);
     aucBuf[15] = 0;
-    GR_LOG_INFO(d_logger, boost::format("Dongle: %S ") % &aucBuf[2]);
+    d_logger->info("Dongle: {:s}", &aucBuf[2]);
     /*
      * Initialize message handling
      *
@@ -97,10 +97,10 @@ void fcdpp_control_impl::set_freq(float freq)
         nfreq += (unsigned int)(aucBuf[3] << 8);
         nfreq += (unsigned int)(aucBuf[4] << 16);
         nfreq += (unsigned int)(aucBuf[5] << 24);
-        GR_LOG_INFO(d_logger, boost::format("Set Frequency to: %1% Hz") % nfreq);
+        d_logger->info("Set Frequency to: {:d} Hz", nfreq);
 
     } else {
-        GR_LOG_INFO(d_logger, boost::format("Set Frequency to %1% Hz failed") % nfreq);
+        d_logger->error("Set Frequency to {:d} Hz failed", nfreq);
     }
 }
 void fcdpp_control_impl::set_frequency_msg(pmt::pmt_t msg)
@@ -108,7 +108,7 @@ void fcdpp_control_impl::set_frequency_msg(pmt::pmt_t msg)
     // Accepts either a number that is assumed to be the new
     // frequency or a key:value pair message where the key must be
     // "freq" and the value is the new frequency.
-    GR_LOG_DEBUG(d_logger, "Funcube Control frequency message arrived");
+    d_logger->debug("Funcube Control frequency message arrived");
     if (pmt::is_number(msg)) {
         set_freq(pmt::to_float(msg));
     } else if (pmt::is_pair(msg)) {
@@ -119,16 +119,13 @@ void fcdpp_control_impl::set_frequency_msg(pmt::pmt_t msg)
                 set_freq(pmt::to_float(val));
             }
         } else {
-            GR_LOG_WARN(
-                d_logger,
-                boost::format(
-                    "Set Frequency Message must have the key = 'freq'; got '%1%'.") %
-                    pmt::write_string(key));
+            d_logger->warn(
+                "Set Frequency Message must have the key = 'freq'; got '{:s}'.",
+                pmt::write_string(key));
         }
     } else {
-        GR_LOG_WARN(d_logger,
-                    "Set Frequency Message must be either a number or a "
-                    "key:value pair where the key is 'freq'.");
+        d_logger->warn("Set Frequency Message must be either a number or a "
+                       "key:value pair where the key is 'freq'.");
     }
 }
 void fcdpp_control_impl::set_lna(int gain)
@@ -145,15 +142,14 @@ void fcdpp_control_impl::set_lna(int gain)
     hid_read(d_control_handle, aucBuf, 65);
     if (aucBuf[0] == FCD_HID_CMD_SET_LNA_GAIN) {
         if (gain != 0) {
-            GR_LOG_INFO(d_logger, "LNA gain enabled");
+            d_logger->info("LNA gain enabled");
         } else {
-            GR_LOG_INFO(d_logger, "LNA gain disabled");
+            d_logger->info("LNA gain disabled");
         }
     } else {
-        GR_LOG_ERROR(
-            d_logger,
-            boost::format("Failed to modify LNA gain. Result of transaction: %1%,%2%") %
-                aucBuf[0] % aucBuf[1]);
+        d_logger->error("Failed to modify LNA gain. Result of transaction: {:d},{:d}",
+                        aucBuf[0],
+                        aucBuf[1]);
     }
 }
 void fcdpp_control_impl::set_mixer_gain(int gain)
@@ -170,22 +166,21 @@ void fcdpp_control_impl::set_mixer_gain(int gain)
     hid_read(d_control_handle, aucBuf, 65);
     if (aucBuf[0] == FCD_HID_CMD_SET_MIXER_GAIN) {
         if (gain != 0) {
-            GR_LOG_INFO(d_logger, "Mixer gain enabled");
+            d_logger->info("Mixer gain enabled");
         } else {
-            GR_LOG_INFO(d_logger, "Mixer gain disabled");
+            d_logger->info("Mixer gain disabled");
         }
     } else {
-        GR_LOG_ERROR(
-            d_logger,
-            boost::format("Failed to modify Mixer gain. Result of transaction: %1%,%2%") %
-                aucBuf[0] % aucBuf[1]);
+        d_logger->error("Failed to modify Mixer gain. Result of transaction: {:d},{:d}",
+                        aucBuf[0],
+                        aucBuf[1]);
     }
 }
 
 void fcdpp_control_impl::set_if_gain(int gain)
 {
     if ((gain < 0) || gain > 59) {
-        GR_LOG_ERROR(d_logger, boost::format("Invalid IF gain value: %1%") % gain);
+        d_logger->error("Invalid IF gain value: {:d}", gain);
         return;
     }
     aucBuf[0] = 0; // Report ID. Ignored by HID Class firmware as only config'd
@@ -195,9 +190,9 @@ void fcdpp_control_impl::set_if_gain(int gain)
     hid_write(d_control_handle, aucBuf, 65);
     hid_read(d_control_handle, aucBuf, 65);
     if (aucBuf[0] == FCD_HID_CMD_SET_IF_GAIN) {
-        GR_LOG_INFO(d_logger, boost::format("IF gain set to: %1%") % gain);
+        d_logger->info("IF gain set to: {:d}", gain);
     } else {
-        GR_LOG_ERROR(d_logger, "Could not set IF gain");
+        d_logger->error("Could not set IF gain");
     }
 }
 
