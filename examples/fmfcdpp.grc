@@ -41,7 +41,6 @@ blocks:
     label: IFGain
     min_len: '45'
     orient: QtCore.Qt.Horizontal
-    outputmsgname: value
     rangeType: int
     start: '0'
     step: '1'
@@ -123,13 +122,12 @@ blocks:
     label: 'Set Frequency '
     min_len: '800'
     orient: QtCore.Qt.Horizontal
-    outputmsgname: freq
     rangeType: float
     start: '80000000'
     step: '1000'
     stop: '146000000'
     value: '94300000'
-    widget: dial
+    widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
@@ -205,20 +203,6 @@ blocks:
     coordinate: [1200, 392.0]
     rotation: 0
     state: enabled
-- name: blocks_message_debug_0
-  id: blocks_message_debug
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    en_uvec: 'True'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1200, 200.0]
-    rotation: 0
-    state: true
 - name: funcube_fcdpp_0
   id: funcube_fcdpp
   parameters:
@@ -296,9 +280,6 @@ blocks:
     state: enabled
 
 connections:
-- [RxFrequency, value, blocks_message_debug_0, print]
-- [RxFrequency, value, funcube_fcdpp_0, freq]
-- [RxFrequency, value, qtgui_sink_x_0, freq]
 - [analog_fm_deemph_0, '0', audio_sink_0, '0']
 - [analog_fm_deemph_0, '0', audio_sink_0, '1']
 - [analog_fm_demod_cf_0, '0', analog_fm_deemph_0, '0']
@@ -308,3 +289,4 @@ connections:
 
 metadata:
   file_format: 1
+  grc_version: v3.11.0.0git-120-gc6d094d7

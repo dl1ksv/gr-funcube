@@ -22,7 +22,7 @@ options:
     run_options: prompt
     sizing_mode: fixed
     thread_safe_setters: ''
-    title: FM radio to test FCDPROplus
+    title: FM radio to test FCDPRO
     window_size: (1000,1000)
   states:
     bus_sink: false
@@ -212,14 +212,14 @@ blocks:
     dci: '0.0'
     dcq: '0.0'
     devicename: ''
-    freq: '1447881825'
+    freq: RxFrequency*1000
     iq_gain: '1.0'
     iq_phase: '0.0'
     lna: Lna
     maxoutbuf: '0'
     minoutbuf: '0'
     mixer: Ifgain
-    ppm: '0'
+    ppm: '120'
   states:
     bus_sink: false
     bus_source: false
@@ -291,4 +291,4 @@ connections:
 
 metadata:
   file_format: 1
-  grc_version: v3.10.0.0-22-g7712360d
+  grc_version: v3.11.0.0git-120-gc6d094d7
