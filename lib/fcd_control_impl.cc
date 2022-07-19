@@ -36,8 +36,7 @@ fcd_control::sptr fcd_control::make()
 fcd_control_impl::fcd_control_impl()
     : gr::block("fcd_control",
                 gr::io_signature::make(0, 0, 0),
-                gr::io_signature::make(0, 0, 0)),
-      d_freq_corr(-120)
+                gr::io_signature::make(0, 0, 0))
 {
     /* setup the control part */
     d_control_handle = NULL;
@@ -63,15 +62,9 @@ fcd_control_impl::fcd_control_impl()
     /*
      * Initialize message handling
      *
-     * Replace boost::function with std::function
-     *
      */
 
     message_port_register_in(pmt::mp("freq"));
-    /*
-     * set_msg_handler(pmt::mp("freq"),
-     *               boost::bind(&fcd_control_impl::set_frequency_msg, this, _1));
-     */
     set_msg_handler(pmt::mp("freq"), [this](pmt::pmt_t msg) {
         this->fcd_control_impl::set_frequency_msg(msg);
     });
@@ -85,14 +78,14 @@ fcd_control_impl::~fcd_control_impl()
     hid_exit();
 }
 
-// Set frequency with Hz resolution (type float)
-void fcd_control_impl::set_freq(float freq)
+// Set frequency with Hz resolution (type double)
+void fcd_control_impl::set_freq(double freq)
 {
     /* valid range 50 MHz - 2.0 GHz */
     if ((freq < 50.0e6) || (freq > 2.0e9))
         return;
 
-    unsigned int nfreq = (double)freq * (1.0 + d_freq_corr / 1000000.0);
+    unsigned long int nfreq = freq;
     aucBuf[0] = 0;
     aucBuf[1] = FCD_HID_CMD_SET_FREQUENCY_HZ;
     aucBuf[2] = (unsigned char)nfreq;
@@ -100,14 +93,14 @@ void fcd_control_impl::set_freq(float freq)
     aucBuf[4] = (unsigned char)(nfreq >> 16);
     aucBuf[5] = (unsigned char)(nfreq >> 24);
     hid_write(d_control_handle, aucBuf, 65);
-    aucBuf[1] = 0;
+    aucBuf[1] =0;
     hid_read(d_control_handle, aucBuf, 65);
     if (aucBuf[0] == FCD_HID_CMD_SET_FREQUENCY_HZ && aucBuf[1] == 1) {
         nfreq = 0;
-        nfreq = (unsigned int)aucBuf[2];
-        nfreq += (unsigned int)(aucBuf[3] << 8);
-        nfreq += (unsigned int)(aucBuf[4] << 16);
-        nfreq += (unsigned int)(aucBuf[5] << 24);
+        nfreq = (unsigned long int)aucBuf[2];
+        nfreq += (unsigned long int)(aucBuf[3] << 8);
+        nfreq += (unsigned long int)(aucBuf[4] << 16);
+        nfreq += (unsigned long int)(aucBuf[5] << 24);
         d_logger->info("Set Frequency to: {:d} Hz", nfreq);
     } else {
         d_logger->error("Set Frequency to {:d} Hz failed", nfreq);
@@ -188,14 +181,6 @@ void fcd_control_impl::set_mixer_gain(float gain)
                         aucBuf[0],
                         aucBuf[1]);
     }
-}
-
-// Set new frequency correction
-void fcd_control_impl::set_freq_corr(int ppm)
-{
-    d_freq_corr = ppm;
-    // re-tune with new correction value
-    // set_freq(d_freq_req);
 }
 
 // Set DC offset correction.

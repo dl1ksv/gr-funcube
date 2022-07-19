@@ -79,7 +79,7 @@ fcdpp_control_impl::~fcdpp_control_impl()
     }
     hid_exit();
 }
-void fcdpp_control_impl::set_freq(float freq)
+void fcdpp_control_impl::set_freq(double freq)
 {
     unsigned int nfreq = freq;
     aucBuf[0] = 0;

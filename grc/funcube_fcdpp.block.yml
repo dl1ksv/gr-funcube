@@ -26,7 +26,7 @@ parameters:
   default: '137500000'
 - id: ppm
   label: Frequency corr. (ppm)
-  dtype: int
+  dtype: real
   default: '0'
 - id: if_gain
   label: If gain

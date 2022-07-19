@@ -22,7 +22,7 @@ parameters:
     default: '+12'
 -   id: ppm
     label: Frequency corr. (ppm)
-    dtype: int
+    dtype: real
     default: '-120'
 -   id: dci
     label: DC I offset

@@ -39,7 +39,7 @@ public:
      * Sets the frequency of the Funcube Dongle with Hz resolution
      *
      */
-    virtual void set_freq(float freq) = 0;
+    virtual void set_freq(double freq) = 0;
 
     /*! \brief Switches the LNA on/off.
      *  \param gain  lna on/off.

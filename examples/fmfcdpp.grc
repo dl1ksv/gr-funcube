@@ -123,16 +123,16 @@ blocks:
     min_len: '800'
     orient: QtCore.Qt.Horizontal
     rangeType: float
-    start: '80000000'
-    step: '1000'
-    stop: '146000000'
-    value: '94300000'
+    start: '80000'
+    step: '10'
+    stop: '146000'
+    value: '94300'
     widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [312, 68.0]
+    coordinate: [344, 60.0]
     rotation: 0
     state: enabled
 - name: samp_rate
@@ -203,6 +203,20 @@ blocks:
     coordinate: [1200, 392.0]
     rotation: 0
     state: enabled
+- name: blocks_message_debug_0
+  id: blocks_message_debug
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    en_uvec: 'True'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1200, 200.0]
+    rotation: 0
+    state: true
 - name: funcube_fcdpp_0
   id: funcube_fcdpp
   parameters:
@@ -210,7 +224,7 @@ blocks:
     alias: ''
     comment: ''
     device_name: ' ""'
-    freq: '94300'
+    freq: RxFrequency
     if_gain: Ifgain
     lnaswitch: Lna
     maxoutbuf: '0'
@@ -246,7 +260,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 348.0]
+    coordinate: [504, 340.0]
     rotation: 0
     state: enabled
 - name: qtgui_sink_x_0
@@ -256,7 +270,7 @@ blocks:
     alias: ''
     bw: samp_rate
     comment: ''
-    fc: 94300*1000
+    fc: RxFrequency*1000
     fftsize: '1024'
     gui_hint: 2,0,7,3
     maxoutbuf: '0'
@@ -286,7 +300,9 @@ connections:
 - [funcube_fcdpp_0, '0', low_pass_filter_0, '0']
 - [funcube_fcdpp_0, '0', qtgui_sink_x_0, '0']
 - [low_pass_filter_0, '0', analog_fm_demod_cf_0, '0']
+- [qtgui_sink_x_0, freq, blocks_message_debug_0, print]
+- [qtgui_sink_x_0, freq, funcube_fcdpp_0, freq]
 
 metadata:
   file_format: 1
-  grc_version: v3.11.0.0git-120-gc6d094d7
+  grc_version: v3.11-compat-xxx-xunknown

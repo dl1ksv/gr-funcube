@@ -7,7 +7,7 @@ To control the device the hidapi usb version is used.
 
 1.   Dependencies:  
     &nbsp;   
-gnuradio (>= 3.9 ) with pybind  
+gnuradio (>= 3.10 ) with pybind  
 alsa usb drivers activated  
 hidapi-libusb  
 

@@ -40,7 +40,7 @@ public:
      * order to allow using engineering notation in GRC.
      *
      */
-    virtual void set_freq(float freq) = 0;
+    virtual void set_freq(double freq) = 0;
 
     /*! \brief Set LNA gain.
      *  \param gain The new gain in dB.
@@ -66,17 +66,6 @@ public:
      * the gain.
      */
     virtual void set_mixer_gain(float gain) = 0;
-
-    /*! \brief Set new frequency correction.
-     *  \param ppm The new frequency correction in parts per million
-     *
-     * Version 1.1 FCDs (S/N 810 or later) need a correction of -12
-     * ppm.  Earlier FCDs need roughly -120 ppm (default for
-     * gr-fcd).
-     *
-     * Ref: http://www.funcubedongle.com/?p=617
-     */
-    virtual void set_freq_corr(int ppm) = 0;
 
     /*! \brief Set DC offset correction.
      *  \param _dci DC correction for I component (-1.0 to 1.0)
