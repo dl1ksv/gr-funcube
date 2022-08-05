@@ -14,7 +14,7 @@
 namespace gr {
 namespace funcube {
 
-class fcdpp_control_impl : public fcdpp_control
+class FUNCUBE_API fcdpp_control_impl : public fcdpp_control
 {
 private:
     hid_device* d_control_handle; /*!< handle to control the device, set frequency, etc */

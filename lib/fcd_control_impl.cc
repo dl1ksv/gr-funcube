@@ -20,14 +20,9 @@
 namespace gr {
 namespace funcube {
 
-/*
- * Create a new instance of gr::fcd::fcd_control_impl and return an
- * upcasted boost shared_ptr. This is effectively the public
- * constructor.
- */
 fcd_control::sptr fcd_control::make()
 {
-    return gnuradio::get_initial_sptr(new fcd_control_impl());
+    return gnuradio::make_block_sptr<fcd_control_impl>();
 }
 
 /*

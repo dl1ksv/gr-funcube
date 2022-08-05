@@ -15,7 +15,7 @@
 namespace gr {
 namespace funcube {
 
-class fcd_control_impl : public fcd_control
+class FUNCUBE_API fcd_control_impl : public fcd_control
 {
 public:
     fcd_control_impl();

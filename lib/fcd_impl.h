@@ -16,7 +16,7 @@
 namespace gr {
 namespace funcube {
 
-class fcd_impl : public fcd
+class FUNCUBE_API fcd_impl : public fcd
 {
 private:
     // Nothing to declare in this block.

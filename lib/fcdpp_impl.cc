@@ -22,7 +22,7 @@ namespace funcube {
 
 fcdpp::sptr fcdpp::make(const std::string device_name, int unit)
 {
-    return gnuradio::get_initial_sptr(new fcdpp_impl(device_name, unit));
+    return gnuradio::make_block_sptr<fcdpp_impl>(device_name, unit);
 }
 
 /*

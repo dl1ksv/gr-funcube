@@ -18,7 +18,7 @@
 namespace gr {
 namespace funcube {
 
-class fcdpp_impl : public fcdpp
+class FUNCUBE_API fcdpp_impl : public fcdpp
 {
 private:
     gr::audio::source::sptr fcd;           /*!< The audio input source */

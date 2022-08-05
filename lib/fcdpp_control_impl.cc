@@ -25,7 +25,7 @@ namespace funcube {
 
 fcdpp_control::sptr fcdpp_control::make()
 {
-    return gnuradio::get_initial_sptr(new fcdpp_control_impl());
+    return gnuradio::make_block_sptr<fcdpp_control_impl>();
 }
 
 /*
