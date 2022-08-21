@@ -17,7 +17,7 @@ namespace funcube {
 /*!
  * \brief Funcube Pro+ Dongle source block.
  *
- * This class provides a soure block for the Funcube Pro+ Dongle by wrapping the
+ * This class provides a source block for the Funcube Pro+ Dongle by wrapping the
  * alsa audio interface and the USB control interface of the Funcube Dongle
  * into one convenient source block.
  * The hadware audio device is autodetected by the card name. If more than one Pro+ are
@@ -46,7 +46,7 @@ public:
      *  \param freq The frequency in unit Hz
      *
      * Sets the frequency of the Funcube Dongle with Hz or Khz resolution
-     * depending on the unit paramater ( 1: Hz , 1000 Khz )
+     * depending on the unit parameter ( 1: Hz , 1000 Khz )
      * applying the frequency correction set by set_freq_corr().
      *
      */
