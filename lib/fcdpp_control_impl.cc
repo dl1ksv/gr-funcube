@@ -57,7 +57,7 @@ fcdpp_control_impl::fcdpp_control_impl()
     hid_write(d_control_handle, aucBuf, 65);
     hid_read(d_control_handle, aucBuf, 65);
     aucBuf[15] = 0;
-    d_logger->info("Dongle: {:s}", &aucBuf[2]);
+    d_logger->info("Dongle: {:s}", reinterpret_cast<const char*>(&aucBuf[2]));
     /*
      * Initialize message handling
      *
