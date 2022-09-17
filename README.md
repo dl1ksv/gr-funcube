@@ -46,36 +46,41 @@ To control the device the hidapi usb version is used.
      local_blocks_path = /usr/local/oot/share/gnuradio/grc/blocks
      
 
-3.   Important  
-    &nbsp;  
-Don't forget the udev rules:  
-For instance:  
-&nbsp;  
-    ## Udev rules for the Funcube Dongle Pro (0xfb56) and Pro+ (0xfb31)   
-    ## HIDAPI/libusb:  
-SUBSYSTEMS=="usb" ATTRS{idVendor}=="04d8" ATTRS{idProduct}=="fb56" MODE:="0666"    
-SUBSYSTEMS=="usb" ATTRS{idVendor}=="04d8" ATTRS{idProduct}=="fb31" MODE:="0666"  
-    ## HIDAPI/hidraw:  
-KERNEL=="hidraw*", ATTRS{busnum}=="1", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="fb56", MODE="0666"  
-KERNEL=="hidraw*", ATTRS{busnum}=="1", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="fb31", MODE="0666"  
+3. Important  
 
-4.    Usage  
-    &nbsp;  
-Four modules are available:  
+  Don't forget the udev rules:  
+  For instance:  
+
+  ## Udev rules for the Funcube Dongle Pro (0xfb56) and Pro+ (0xfb31)
+   
+  ### HIDAPI/libusb:  
+
+  SUBSYSTEMS=="usb" ATTRS{idVendor}=="04d8" ATTRS{idProduct}=="fb56" MODE:="0666"    
+  SUBSYSTEMS=="usb" ATTRS{idVendor}=="04d8" ATTRS{idProduct}=="fb31" MODE:="0666"  
+
+  ### HIDAPI/hidraw:
+  
+  KERNEL=="hidraw*", ATTRS{busnum}=="1", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="fb56", MODE="0666"  
+  KERNEL=="hidraw*", ATTRS{busnum}=="1", ATTRS{idVendor}=="04d8", ATTRS{idProduct}=="fb31", MODE="0666"  
+
+4. Usage  
+
+  Four modules are available:  
    - fcd_control  
    - fcd  
    - fcdpp_control  
    - funcube  
+  
+    The control modules only controls the dongles, while the other modules control the dongles and provide the IQ samples.
 
- The control modules only controls the dongles, while the other modules control the dongles and provide the IQ samples.
-All modules accept messages to control the frequency. That was the reason to introduce the control modules.
-&nbsp;  
-    The fcd modules where introduced, as gnuradio 3.8 does not contain gr-fcd any longer.  
-See the examples of a simple fm receiver in the examples directory or see a more complex example in in gr-display
+    All modules accept messages to control the frequency. That was the reason to introduce the control modules.
+
+    The fcd modules where introduced, as gnuradio >=3.8 does not contain gr-fcd.  
+    See the examples of a simple fm receiver in the examples directory or see a more complex example in in gr-display
 
 
-5.    Credits  
-    &nbsp;  
-Some code is taken from qthid-4.1 by Alexandru Csete, OZ9AEC.  
+5. Credits  
+  
+  Some code is taken from qthid-4.1 by Alexandru Csete, OZ9AEC.  
 
-Thanks to Michael Dickens, who gave valuable hints for implementing message in hier2_blocks.
+ Thanks to Michael Dickens, who gave valuable hints for implementing message in hier2_blocks.
