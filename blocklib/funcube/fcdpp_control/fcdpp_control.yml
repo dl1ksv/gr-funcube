@@ -1,0 +1,66 @@
+module: funcube
+block: fcdpp_control
+label: fcdpp_control
+blocktype: block
+category: '[DL1KSV]/funcube'
+
+# Example Parameters
+parameters:
+-   id: lnaswitch
+    label: Lna enable,disable
+    dtype: int
+    default: '1'
+    grc:
+        hide: part
+-   id: mixergainswitch
+    label: 'Mixergain enable,disable'
+    dtype: int
+    default: '1'
+    grc:
+        hide: part
+-   id: freq
+    label: Frequency (Unit Hz)
+    dtype: rf64
+    default: '137500000'
+    grc:
+        hide: part
+-   id: if_gain
+    label: If gain
+    dtype: int
+    default: '1'
+    grc:
+        hide: part
+
+# Example Ports
+ports:
+-   domain: message
+    id: freq
+    direction: input
+    optional: true
+
+callbacks:
+-  id: set_freq
+   return: void
+   args:
+   - id: freq
+     dtype: rf64
+-  id: set_lna
+   return: void
+   args:
+   - id: gain
+     dtype: int
+-  id: set_mixer_gain
+   return: void
+   args:
+   - id: gain
+     dtype: int
+-  id: set_if_gain
+   return: void
+   args:
+   - id: gain
+     dtype: int
+implementations:
+-   id: cpu
+# -   id: cuda
+
+file_format: 1

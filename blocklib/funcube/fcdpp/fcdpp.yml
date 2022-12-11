@@ -1,0 +1,55 @@
+module: funcube
+block: fcdpp
+label: fcdpp
+blocktype: hier_block
+category: '[DL1KSV]/funcube'
+
+# Example Parameters
+parameters:
+- id: device_name
+  label: Device_name
+  default: ' ""'
+  dtype: string
+- id: unit
+  label: Unit
+  default: '1 '
+  dtype: int
+- id: lnaswitch
+  label: Lna enable,disable
+  dtype: int
+  default: '1'
+- id: mixergainswitch
+  label: Mixergain enable,disable
+  dtype: int
+  default: '1'
+- id: freq
+  label: Frequency (Unit Hz)
+  dtype: rf64
+  default: '137500000'
+- id: ppm
+  label: Frequency corr. (ppm)
+  dtype: rf64
+  default: '0'
+- id: if_gain
+  label: If gain
+  dtype: int
+  default: '1'
+
+# Example Ports
+ports:
+-   domain: message
+    id: freq
+    direction: input
+    optional: true
+
+-   domain: stream
+    id: out
+    direction: output
+    type: cf32
+    size: parameters/itemsize
+
+implementations:
+-   id: cpu
+# -   id: cuda
+
+file_format: 1
