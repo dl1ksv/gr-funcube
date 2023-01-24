@@ -1,4 +1,6 @@
-gr-funcube is an linux oot-module for gnuradio to implement a funcube dongle and a funcube dongle pro+ source.  
+## Draft
+
+gr-funcube is an linux oot-module for gnuradio to implementma funcube dongle pro+ source.  
 On linux it autodetects the correct soundcard from /proc/asound/cards.  
 This idea was taken from the osmosdr drivers.
 
@@ -6,33 +8,22 @@ To control the device the hidapi usb version is used.
 
 1. Dependencies:  
 
- gnuradio (>= 3.10 ) with pybind  
+ gnuradio (dev-4.0 branch) with pybind  
  alsa usb drivers activated  
  hidapi-libusb  
 
 2. Installation:    
 
- The build process is cmake based.  
- So get the latest code from https://github.com/dl1ksv/gr-funcube  
- and change to the code directory. There   
- 
- $mkdir build
+ git clone https://github.com/dl1ksv/gr-funcube --branch dev-4.0  
+ cd gr-funcube  
+ meson setup build  
+ cd build && ninja   
+ ninja test  
+ ninja install # (sudo ninja install if not root)
 
- $cd build
-  
- $cmake -DCMAKE_INSTALL_PREFIX= "path to gnuradio installation" ../  
-
- $make
-
- $su  
-
- $make install
-
-      
  After that executing grc  you'll find in the section Funcube   
 
- Funcube Dongle  
- Funcube Dongle control  
+
  Funcube Dongle Pro+  
  Funcube Dongle Pro+ control
 
@@ -41,9 +32,9 @@ To control the device the hidapi usb version is used.
      the location of your python modules to the PYTHONPATH environment variable and add the location of
      the lib to the LD_LIBRARY_PATH environment variable.
 
-     To see the newly created blocks in grc you have to set the local_blocks_path entry in ~/.gnuradio/config.conf.
+     To see the newly created blocks in grc you have to set the local_blocks_path entry in ~/.gnuradio/config.yml.
      Example: If you choose /usr/local/oot as installation directory, you have to set 
-     local_blocks_path = /usr/local/oot/share/gnuradio/grc/blocks
+     local_blocks_path: /usr/local/oot/share/gnuradio/grc/blocks
      
 
 3.   Important  
@@ -61,17 +52,13 @@ KERNEL=="hidraw*", ATTRS{busnum}=="1", ATTRS{idVendor}=="04d8", ATTRS{idProduct}
 
 4.    Usage  
     &nbsp;  
-Four modules are available:  
-   - fcd_control  
-   - fcd  
+Two modules are available:  
    - fcdpp_control  
    - funcube  
 
  The control modules only controls the dongles, while the other modules control the dongles and provide the IQ samples.
 All modules accept messages to control the frequency. That was the reason to introduce the control modules.
 &nbsp;  
-    The fcd modules where introduced, as gnuradio 3.8 does not contain gr-fcd any longer.  
-See the examples of a simple fm receiver in the examples directory or see a more complex example in in gr-display
 
 
 5.    Credits  
