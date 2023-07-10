@@ -174,7 +174,6 @@ add_custom_target(uninstall
 ########################################################################
 add_subdirectory(include/funcube)
 add_subdirectory(lib)
-add_subdirectory(apps)
 add_subdirectory(docs)
 add_subdirectory(python)
 add_subdirectory(grc)
