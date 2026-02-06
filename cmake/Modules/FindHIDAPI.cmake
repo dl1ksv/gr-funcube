@@ -12,6 +12,7 @@ if(NOT LIBHIDAPI_FOUND)
     ${LIBHIDAPI_PKG_LIBRARY_DIRS}
     /usr/lib
     /usr/local/lib
+    /app
   )
 
 if(LIBHIDAPI_INCLUDE_DIR AND LIBHIDAPI_LIBRARIES)
