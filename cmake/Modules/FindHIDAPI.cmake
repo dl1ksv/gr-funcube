@@ -5,6 +5,8 @@ if(NOT LIBHIDAPI_FOUND)
     /usr/include/hidapi
     /usr/include
     /usr/local/include
+    /app/include/hidapi
+    /app/include
   )
 
   find_library(LIBHIDAPI_LIBRARIES NAMES libhidapi-libusb hidapi-libusb
@@ -12,7 +14,7 @@ if(NOT LIBHIDAPI_FOUND)
     ${LIBHIDAPI_PKG_LIBRARY_DIRS}
     /usr/lib
     /usr/local/lib
-    /app
+    /app/lib
   )
 
 if(LIBHIDAPI_INCLUDE_DIR AND LIBHIDAPI_LIBRARIES)
@@ -20,7 +22,11 @@ if(LIBHIDAPI_INCLUDE_DIR AND LIBHIDAPI_LIBRARIES)
   message(STATUS "Found hidapi lib: ${LIBHIDAPI_INCLUDE_DIR}, ${LIBHIDAPI_LIBRARIES}")
 else(LIBHIDAPI_INCLUDE_DIR AND LIBHIDAPI_LIBRARIES)
   set(LIBHIDAPI_FOUND FALSE CACHE INTERNAL "libhidapi found")
-  message(STATUS "hidapi lib not found.")
+  if(LIBHIDAPI_LIBRARIES)
+    message(SEND_ERROR "hidapi libs found but hidapi.h is missing")
+  else(LIBHIDAPI_LIBRARIES)
+    message(SEND_ERROR "hidapi libs not found.")
+  endif(LIBHIDAPI_LIBRARIES)
 endif(LIBHIDAPI_INCLUDE_DIR AND LIBHIDAPI_LIBRARIES)
 
 mark_as_advanced(LIBHIDAPI_INCLUDE_DIR LIBHIDAPI_LIBRARIES)
